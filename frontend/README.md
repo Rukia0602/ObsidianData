@@ -1,57 +1,37 @@
-# React + TypeScript + Vite
+# ObsidianData 前端
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+这是 **ObsidianData（黑曜数据）** 的 React + TypeScript + Vite 前端子项目。
 
-Currently, two official plugins are available:
+## 技术栈
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- React 18 + TypeScript
+- Vite 6
+- ECharts（交互式图表）
+- Zustand（全局状态管理）
+- Tailwind CSS
+- React Router
 
-## Expanding the ESLint configuration
+## 开发
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+# 在项目根目录执行
+bun run dev:frontend
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+开发服务器默认监听 `http://localhost:5173`，API 与图表请求通过 Vite 代理转发到后端 `http://localhost:8000`。
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 构建
 
-export default tseslint.config({
-  extends: [
-    // other configs...
-    // Enable lint rules for React
-    reactX.configs['recommended-typescript'],
-    // Enable lint rules for React DOM
-    reactDom.configs.recommended,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+bun run build
 ```
+
+构建产物输出到 `frontend/dist`，生产模式下由 FastAPI 统一挂载为 SPA。
+
+## 目录说明
+
+- `src/pages/` — 页面级组件（UploadPage、DashboardPage）
+- `src/components/` — 可复用组件（图表、筛选、洞察、行动计划等）
+- `src/lib/` — API 封装、工具函数、品牌常量
+- `src/store/` — Zustand 全局状态
+- `src/styles/print.css` — 报告打印样式

@@ -100,3 +100,4 @@ testdata/*
 *.tmp
 *.temp
 .cache/
+.omo/

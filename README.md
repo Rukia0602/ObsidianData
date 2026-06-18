@@ -142,12 +142,15 @@ bun run dev
 | `POST` | `/multi-upload` | 批量上传（多数据集对比） |
 | `POST` | `/chart` | 生成 matplotlib 静态图表 |
 | `GET` | `/sample` | 加载示例数据并生成图表 |
+| `POST` | `/process` | 合并生成静态图表与规则引擎分析（一次读盘） |
 | `POST` | `/analyze` | 规则引擎数据分析 |
 | `GET` | `/data/{file_id}` | 获取原始数据与列类型 |
+| `GET` | `/data/{file_id}/filter-meta` | 获取可用于筛选的列元信息（枚举值、最值等） |
 | `POST` | `/data/{file_id}/filter` | 服务端数据筛选 |
 | `POST` | `/data/{file_id}/pivot` | 数据透视 |
 | `POST` | `/data/{file_id}/calculate` | 添加计算列 |
 | `POST` | `/data/{file_id}/aggregate` | 聚合数据（图表用） |
+| `POST` | `/data/{file_id}/chart-series` | 构建图表所需序列（支持筛选与聚合） |
 | `GET` | `/data/{file_id}/stats/{column}` | 列统计信息 |
 | `GET` | `/actions` | 获取行动计划列表（`session_id=file_id`） |
 | `POST` | `/actions` | 创建单条行动计划 |

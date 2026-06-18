@@ -1,6 +1,6 @@
 /**
  * ECharts 交互式图表渲染器
- * 支持9种图表：柱状图、折线图、饼图、散点图、直方图、热力图、箱线图、雷达图、面积图、漏斗图
+ * 支持10种图表：柱状图、折线图、面积图、饼图、散点图、直方图、热力图、箱线图、雷达图、漏斗图
  * 暗色主题、tooltip悬浮、图例可点击切换、数据缩放
  */
 import { useMemo, forwardRef, useImperativeHandle, useRef, useEffect } from 'react';
