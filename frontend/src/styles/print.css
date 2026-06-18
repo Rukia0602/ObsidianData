@@ -1,0 +1,182 @@
+/* 屏幕下隐藏打印专用区域 */
+.print-report {
+  display: none;
+}
+
+@media print {
+  @page {
+    margin: 1.5cm;
+    size: A4;
+  }
+
+  body {
+    background: #fff !important;
+    color: #111 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body::before {
+    display: none !important;
+  }
+
+  .no-print,
+  nav,
+  .aurora-bg {
+    display: none !important;
+  }
+
+  .print-report {
+    display: block !important;
+    background: #fff;
+    color: #111;
+    font-family: 'Noto Sans SC', system-ui, sans-serif;
+    font-size: 11pt;
+    line-height: 1.5;
+  }
+
+  .print-report__header {
+    border-bottom: 2pt solid #333;
+    padding-bottom: 12pt;
+    margin-bottom: 16pt;
+  }
+
+  .print-report__title {
+    font-size: 20pt;
+    font-weight: 700;
+    margin: 0 0 6pt;
+    color: #111;
+  }
+
+  .print-report__meta {
+    font-size: 10pt;
+    color: #444;
+    margin: 2pt 0;
+  }
+
+  .print-report__section {
+    margin-bottom: 16pt;
+    page-break-inside: avoid;
+  }
+
+  .print-report__section-title {
+    font-size: 13pt;
+    font-weight: 600;
+    color: #222;
+    border-left: 3pt solid #4a6cf7;
+    padding-left: 8pt;
+    margin: 0 0 8pt;
+  }
+
+  .print-report__summary {
+    margin: 0;
+    color: #333;
+  }
+
+  .print-report__metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8pt;
+    margin-top: 8pt;
+  }
+
+  .print-report__metric {
+    border: 1pt solid #ddd;
+    border-radius: 4pt;
+    padding: 8pt;
+    text-align: center;
+  }
+
+  .print-report__metric-value {
+    font-size: 14pt;
+    font-weight: 600;
+    color: #111;
+  }
+
+  .print-report__metric-label {
+    font-size: 9pt;
+    color: #666;
+    margin-top: 2pt;
+  }
+
+  .print-report__finding {
+    margin-bottom: 8pt;
+    padding: 8pt;
+    border: 1pt solid #eee;
+    border-radius: 4pt;
+  }
+
+  .print-report__finding-title {
+    font-weight: 600;
+    font-size: 10pt;
+    margin-bottom: 4pt;
+  }
+
+  .print-report__finding-content {
+    font-size: 9pt;
+    color: #444;
+    margin: 0;
+  }
+
+  .print-report__charts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12pt;
+  }
+
+  .print-report__chart-item {
+    page-break-inside: avoid;
+  }
+
+  .print-report__chart-item img {
+    width: 100%;
+    height: auto;
+    border: 1pt solid #ddd;
+    border-radius: 4pt;
+  }
+
+  .print-report__chart-caption {
+    font-size: 9pt;
+    color: #666;
+    text-align: center;
+    margin-top: 4pt;
+  }
+
+  .print-report__action {
+    margin-bottom: 10pt;
+    padding: 8pt;
+    border: 1pt solid #eee;
+    border-radius: 4pt;
+    page-break-inside: avoid;
+  }
+
+  .print-report__action-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: 10pt;
+    margin-bottom: 4pt;
+  }
+
+  .print-report__action-meta {
+    font-size: 9pt;
+    color: #666;
+    margin-bottom: 4pt;
+  }
+
+  .print-report__steps {
+    margin: 4pt 0 0;
+    padding-left: 16pt;
+    font-size: 9pt;
+    color: #444;
+  }
+
+  .print-report__footer {
+    margin-top: 20pt;
+    padding-top: 8pt;
+    border-top: 1pt solid #ddd;
+    font-size: 8pt;
+    color: #888;
+    text-align: center;
+  }
+}

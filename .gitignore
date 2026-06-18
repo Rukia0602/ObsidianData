@@ -1,0 +1,102 @@
+# ==============================
+# ObsidianData — .gitignore
+# ==============================
+
+# ----- Dependencies -----
+node_modules/
+node_modules/.old_modules-*/
+package-lock.json
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ----- Bun / Node build -----
+bun-debug.log*
+*.tsbuildinfo
+frontend/.vite/
+frontend/dist/
+dist/
+build/
+out/
+
+# ----- Python -----
+backend/.venv/
+backend/lib/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.hypothesis/
+
+# ----- Runtime data (backend) -----
+backend/uploads/*
+!backend/uploads/.gitkeep
+backend/charts/*
+!backend/charts/.gitkeep
+backend/actions.json
+
+# ----- Environment & secrets -----
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ----- IDE / editor -----
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# ----- OS -----
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ----- Logs -----
+*.log
+logs/
+
+# ----- Cursor / local tooling (non-source) -----
+terminals/
+mcps/
+CLAUDE.md
+
+# ----- Legacy script output -----
+/charts/
+
+# ----- Local test data (keep root data.csv as built-in sample) -----
+testdata/*
+!testdata/README.md
+
+# ----- Misc -----
+*.bak
+*.tmp
+*.temp
+.cache/

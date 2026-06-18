@@ -1,0 +1,28 @@
+{
+  "name": "obsidian-data",
+  "private": true,
+  "version": "1.0.0",
+  "description": "ObsidianData（黑曜数据）— CSV/Excel 规则引擎洞察平台",
+  "workspaces": [
+    "frontend"
+  ],
+  "scripts": {
+    "setup": "bun run setup:backend && bun run setup:frontend",
+    "setup:backend": "node scripts/setup-backend.mjs",
+    "setup:frontend": "bun install",
+    "dev": "concurrently -k -n frontend,backend -c cyan,green \"bun run dev:frontend\" \"bun run dev:backend\"",
+    "dev:frontend": "bun run --cwd frontend dev",
+    "dev:backend": "node scripts/run-backend.mjs --reload",
+    "build": "bun run --cwd frontend build",
+    "start": "bun run build && cross-env ENV=production node scripts/run-backend.mjs",
+    "lint": "bun run --cwd frontend lint",
+    "check": "bun run --cwd frontend check"
+  },
+  "engines": {
+    "bun": ">=1.0.0"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "cross-env": "^7.0.3"
+  }
+}
