@@ -26,25 +26,25 @@ interface AiAnalysis {
 }
 
 const severityConfig = {
-  error: { border: 'border-l-ruby', badge: 'bg-ruby-subtle text-ruby-light border-ruby/20', iconBg: 'bg-ruby-subtle', icon: <AlertTriangle className="w-3.5 h-3.5" />, label: '风险', color: 'text-ruby-light' },
-  warning: { border: 'border-l-amber', badge: 'bg-amber-subtle text-amber border-amber/20', iconBg: 'bg-amber-subtle', icon: <Lightbulb className="w-3.5 h-3.5" />, label: '关注', color: 'text-amber' },
-  success: { border: 'border-l-emerald', badge: 'bg-emerald-subtle text-emerald border-emerald/20', iconBg: 'bg-emerald-subtle', icon: <Shield className="w-3.5 h-3.5" />, label: '优势', color: 'text-emerald' },
-  info: { border: 'border-l-nebula', badge: 'bg-nebula-subtle text-nebula border-nebula/20', iconBg: 'bg-nebula-subtle', icon: <TrendingUp className="w-3.5 h-3.5" />, label: '洞察', color: 'text-nebula' },
+  error: { border: 'border-l-error', badge: 'tag-error', iconBg: 'bg-error-subtle', icon: <AlertTriangle className="w-3.5 h-3.5" />, label: '风险', color: 'text-error' },
+  warning: { border: 'border-l-warning', badge: 'tag-warning', iconBg: 'bg-warning-subtle', icon: <Lightbulb className="w-3.5 h-3.5" />, label: '关注', color: 'text-warning' },
+  success: { border: 'border-l-success', badge: 'tag-success', iconBg: 'bg-success-subtle', icon: <Shield className="w-3.5 h-3.5" />, label: '优势', color: 'text-success' },
+  info: { border: 'border-l-info', badge: 'tag-info', iconBg: 'bg-info-subtle', icon: <TrendingUp className="w-3.5 h-3.5" />, label: '洞察', color: 'text-info' },
 };
 
 // 场景识别
-function detectScenario(summary: string, findings: AiFinding[]): { icon: React.ReactNode; label: string; color: string } {
+function detectScenario(summary: string, findings: AiFinding[]): { icon: React.ReactNode; label: string; bgClass: string } {
   const text = summary + ' ' + findings.map(f => f.title + f.content).join(' ');
   if (text.includes('成绩单') || text.includes('偏科') || text.includes('科目')) {
-    return { icon: <GraduationCap className="w-5 h-5" />, label: '学生成绩单分析', color: 'from-emerald to-cyan' };
+    return { icon: <GraduationCap className="w-5 h-5" />, label: '学生成绩单分析', bgClass: 'bg-accent' };
   }
   if (text.includes('销售') || text.includes('利润率') || text.includes('产品排名')) {
-    return { icon: <ShoppingCart className="w-5 h-5" />, label: '销售数据分析', color: 'from-amber to-ruby' };
+    return { icon: <ShoppingCart className="w-5 h-5" />, label: '销售数据分析', bgClass: 'bg-accent' };
   }
   if (text.includes('汽车') || text.includes('品牌销量') || text.includes('售价')) {
-    return { icon: <Car className="w-5 h-5" />, label: '汽车数据分析', color: 'from-nebula to-violet' };
+    return { icon: <Car className="w-5 h-5" />, label: '汽车数据分析', bgClass: 'bg-accent' };
   }
-  return { icon: <Database className="w-5 h-5" />, label: '通用数据分析', color: 'from-nebula to-nebula-dark' };
+  return { icon: <Database className="w-5 h-5" />, label: '通用数据分析', bgClass: 'bg-accent' };
 }
 
 // 按类型分组 findings
@@ -73,9 +73,9 @@ function groupFindings(findings: AiFinding[]): { group: string; items: AiFinding
 }
 
 const priorityStyles: Record<string, string> = {
-  high: 'bg-ruby-subtle text-ruby-light border border-ruby/20',
-  medium: 'bg-amber-subtle text-amber border border-amber/20',
-  low: 'bg-emerald-subtle text-emerald border border-emerald/20',
+  high: 'tag-error',
+  medium: 'tag-warning',
+  low: 'tag-success',
 };
 const priorityLabels: Record<string, string> = { high: '高优先', medium: '中优先', low: '低优先' };
 
@@ -86,9 +86,9 @@ export default function AIInsightCard({ analysis }: { analysis: AiAnalysis | nul
   if (!analysis || !scenario) {
     return (
       <div className="data-card p-8 text-center">
-        <Brain className="w-10 h-10 text-midnight-500 mx-auto mb-3" />
-        <p className="font-body text-sm text-frost-dim">暂无洞察分析报告</p>
-        <p className="font-body text-xs text-frost-dim mt-1">
+        <Brain className="w-10 h-10 text-quaternary mx-auto mb-3" />
+        <p className="font-body text-sm text-tertiary">暂无洞察分析报告</p>
+        <p className="font-body text-xs text-tertiary mt-1">
           请在上传页完成「开始洞察分析」，规则引擎将自动生成发现与建议
         </p>
       </div>
@@ -102,35 +102,34 @@ export default function AIInsightCard({ analysis }: { analysis: AiAnalysis | nul
   return (
     <div className="space-y-5">
       {/* 场景识别卡片 */}
-      <div className={`data-card p-5 border-l-[3px] border-l-nebula animate-fade-in-up relative overflow-hidden`}>
-        <div className={`absolute -top-8 -right-8 w-32 h-32 rounded-full bg-gradient-to-br ${scenario.color} opacity-10 blur-2xl`} />
+      <div className="data-card p-5 border-l-[3px] border-l-accent animate-fade-in-up relative overflow-hidden">
         <div className="flex items-center gap-3 mb-3 relative">
-          <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${scenario.color} flex items-center justify-center shadow-lg text-white`}>
+          <div className={`w-11 h-11 rounded-xl ${scenario.bgClass} flex items-center justify-center text-canvas`}>
             {scenario.icon}
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-display text-base text-frost font-semibold">{scenario.label}</span>
-              <Sparkles className="w-3.5 h-3.5 text-nebula" />
+              <span className="font-display text-base text-primary font-semibold">{scenario.label}</span>
+              <Sparkles className="w-3.5 h-3.5 text-accent" />
             </div>
             <span className="label-section">规则引擎洞察报告</span>
           </div>
         </div>
-        <p className="font-body text-sm text-frost-muted leading-relaxed relative">{analysis.summary}</p>
+        <p className="font-body text-sm text-secondary leading-relaxed relative">{analysis.summary}</p>
 
         {/* 统计条 */}
         <div className="flex gap-3 mt-4 relative">
-          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-ruby-subtle/50">
-            <span className="w-2 h-2 rounded-full bg-ruby" />
-            <span className="text-xs text-ruby-light font-body">{errorCount} 风险</span>
+          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-error-subtle">
+            <span className="w-2 h-2 rounded-full bg-error" />
+            <span className="text-xs text-error font-body">{errorCount} 风险</span>
           </div>
-          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-amber-subtle/50">
-            <span className="w-2 h-2 rounded-full bg-amber" />
-            <span className="text-xs text-amber font-body">{warnCount} 关注</span>
+          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-warning-subtle">
+            <span className="w-2 h-2 rounded-full bg-warning" />
+            <span className="text-xs text-warning font-body">{warnCount} 关注</span>
           </div>
-          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-subtle/50">
-            <span className="w-2 h-2 rounded-full bg-emerald" />
-            <span className="text-xs text-emerald font-body">{successCount} 优势</span>
+          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-success-subtle">
+            <span className="w-2 h-2 rounded-full bg-success" />
+            <span className="text-xs text-success font-body">{successCount} 优势</span>
           </div>
         </div>
       </div>
@@ -140,8 +139,8 @@ export default function AIInsightCard({ analysis }: { analysis: AiAnalysis | nul
         <div key={g.group} className="space-y-3 animate-fade-in-up" style={{ animationDelay: `${gi * 0.08}s` }}>
           <div className="flex items-center gap-2.5">
             <span className="label-section">{g.group}</span>
-            <span className="text-xs text-frost-dim font-body">({g.items.length})</span>
-            <div className="flex-1 h-px bg-gradient-to-r from-midnight-600/60 to-transparent" />
+            <span className="text-xs text-tertiary font-body">({g.items.length})</span>
+            <div className="flex-1 h-px bg-subtle" />
           </div>
 
           {g.items.map((f, i) => {
@@ -157,9 +156,9 @@ export default function AIInsightCard({ analysis }: { analysis: AiAnalysis | nul
                       {cfg.icon}
                     </div>
                     <span className={`tag ${cfg.badge}`}>{cfg.label}</span>
-                    <span className="font-body text-sm text-frost font-medium">{f.title}</span>
+                    <span className="font-body text-sm text-primary font-medium">{f.title}</span>
                   </div>
-                  <p className="font-body text-xs text-frost-dim leading-relaxed pl-9">{f.content}</p>
+                  <p className="font-body text-xs text-tertiary leading-relaxed pl-9">{f.content}</p>
                 </div>
               </div>
             );
@@ -171,24 +170,24 @@ export default function AIInsightCard({ analysis }: { analysis: AiAnalysis | nul
       {analysis.recommendations.length > 0 && (
         <div className="space-y-3">
           <div className="flex items-center gap-2.5">
-            <ChevronRight className="w-4 h-4 text-emerald" />
+            <ChevronRight className="w-4 h-4 text-accent" />
             <span className="label-section">执行建议 ({analysis.recommendations.length})</span>
-            <div className="flex-1 h-px bg-gradient-to-r from-midnight-600/60 to-transparent" />
+            <div className="flex-1 h-px bg-subtle" />
           </div>
           {analysis.recommendations.map((r) => (
-            <div key={r.id} className="data-card p-4 border-l-[3px] border-l-midnight-500 hover:border-l-emerald/50 transition-colors">
+            <div key={r.id} className="data-card p-4 border-l-[3px] border-l-subtle hover:border-l-accent/50 transition-colors">
               <div className="flex items-center justify-between mb-2.5 flex-wrap gap-2">
-                <span className="font-body text-sm text-frost font-medium">{r.title}</span>
+                <span className="font-body text-sm text-primary font-medium">{r.title}</span>
                 <div className="flex items-center gap-2">
                   <span className={`tag ${priorityStyles[r.priority] || priorityStyles.medium}`}>
                     {priorityLabels[r.priority] || r.priority}
                   </span>
-                  <span className="tag bg-midnight-700 text-frost-dim border border-midnight-600">
+                  <span className="tag bg-surface-1 text-tertiary border border-subtle">
                     影响{r.impact} · 投入{r.effort}
                   </span>
                 </div>
               </div>
-              <p className="font-body text-xs text-frost-dim leading-relaxed">{r.content}</p>
+              <p className="font-body text-xs text-tertiary leading-relaxed">{r.content}</p>
             </div>
           ))}
         </div>

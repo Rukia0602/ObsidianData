@@ -52,7 +52,7 @@ export default function ChartConfigPanel({ columns, columnTypes, config, onChang
       {/* 图表类型选择 */}
       <div>
         <div className="flex items-center gap-2 mb-2">
-          <Settings2 className="w-3.5 h-3.5 text-nebula" />
+          <Settings2 className="w-3.5 h-3.5 text-accent" />
           <span className="label-section">图表类型</span>
         </div>
         <div className="grid grid-cols-5 gap-2">
@@ -64,8 +64,8 @@ export default function ChartConfigPanel({ columns, columnTypes, config, onChang
               className={cn(
                 'flex flex-col items-center gap-1 py-2.5 rounded-lg border transition-all',
                 config.type === ct.type
-                  ? 'bg-nebula-subtle border-nebula/40 text-nebula'
-                  : 'border-midnight-600/40 text-frost-dim hover:border-midnight-500 hover:text-frost-muted'
+                  ? 'bg-accent-subtle border-accent/40 text-accent'
+                  : 'border-line text-tertiary hover:border-strong hover:text-secondary'
               )}
             >
               {ct.icon}
@@ -82,7 +82,7 @@ export default function ChartConfigPanel({ columns, columnTypes, config, onChang
           <select
             value={config.x_col}
             onChange={e => update({ x_col: e.target.value })}
-            className="w-full bg-midnight-800 border border-midnight-600/40 rounded-lg px-3 py-2 text-sm text-frost"
+            className="w-full bg-surface-1 border border-line rounded-lg px-3 py-2 text-sm text-primary"
           >
             {columns.map(c => <option key={c} value={c}>{c}</option>)}
           </select>
@@ -92,7 +92,7 @@ export default function ChartConfigPanel({ columns, columnTypes, config, onChang
           <select
             value={config.aggfunc}
             onChange={e => update({ aggfunc: e.target.value as any })}
-            className="w-full bg-midnight-800 border border-midnight-600/40 rounded-lg px-3 py-2 text-sm text-frost"
+            className="w-full bg-surface-1 border border-line rounded-lg px-3 py-2 text-sm text-primary"
           >
             <option value="sum">求和</option>
             <option value="mean">平均值</option>
@@ -114,14 +114,14 @@ export default function ChartConfigPanel({ columns, columnTypes, config, onChang
               className={cn(
                 'px-2.5 py-1 rounded-md text-xs font-body transition-all',
                 config.y_cols.includes(c)
-                  ? 'bg-nebula text-white'
-                  : 'bg-midnight-700 text-frost-dim hover:text-frost'
+                  ? 'bg-accent text-canvas'
+                  : 'bg-surface-2 text-tertiary hover:text-primary'
               )}
             >
               {c}
             </button>
           ))}
-          {numericCols.length === 0 && <span className="text-xs text-frost-dim">无数值列</span>}
+          {numericCols.length === 0 && <span className="text-xs text-tertiary">无数值列</span>}
         </div>
       </div>
 
@@ -142,8 +142,8 @@ export default function ChartConfigPanel({ columns, columnTypes, config, onChang
               className={cn(
                 'flex-1 py-1.5 rounded-md text-xs font-body transition-all',
                 config.sort_by === opt.val
-                  ? 'bg-nebula-subtle text-nebula border border-nebula/30'
-                  : 'bg-midnight-700 text-frost-dim hover:text-frost border border-transparent'
+                  ? 'bg-accent-subtle text-accent border border-accent/30'
+                  : 'bg-surface-2 text-tertiary hover:text-primary border border-transparent'
               )}
             >
               {opt.label}
@@ -155,13 +155,13 @@ export default function ChartConfigPanel({ columns, columnTypes, config, onChang
       {/* 高级设置 */}
       <button
         onClick={() => setShowAdvanced(!showAdvanced)}
-        className="text-xs text-frost-dim hover:text-frost font-body transition-colors"
+        className="text-xs text-tertiary hover:text-primary font-body transition-colors"
       >
         {showAdvanced ? '▼' : '▶'} 高级设置
       </button>
 
       {showAdvanced && (
-        <div className="space-y-3 p-3 rounded-lg bg-midnight-800/50 border border-midnight-600/30">
+        <div className="space-y-3 p-3 rounded-lg bg-surface-1/50 border border-subtle">
           {/* 标题 */}
           <div>
             <label className="label-section block mb-1">图表标题</label>
@@ -169,7 +169,7 @@ export default function ChartConfigPanel({ columns, columnTypes, config, onChang
               value={config.title}
               onChange={e => update({ title: e.target.value })}
               placeholder="输入标题…"
-              className="w-full bg-midnight-800 border border-midnight-600/40 rounded-lg px-3 py-1.5 text-sm text-frost"
+              className="w-full bg-surface-1 border border-line rounded-lg px-3 py-1.5 text-sm text-primary"
             />
           </div>
 
@@ -183,10 +183,10 @@ export default function ChartConfigPanel({ columns, columnTypes, config, onChang
                   onClick={() => update({ palette: p.colors })}
                   className={cn(
                     'w-full flex items-center gap-2 px-2 py-1.5 rounded-md transition-all',
-                    config.palette.join() === p.colors.join() ? 'bg-midnight-600/40' : 'hover:bg-midnight-700'
+                    config.palette.join() === p.colors.join() ? 'bg-surface-3/40' : 'hover:bg-surface-2'
                   )}
                 >
-                  <span className="text-xs text-frost-muted flex-1 text-left">{p.name}</span>
+                  <span className="text-xs text-secondary flex-1 text-left">{p.name}</span>
                   <div className="flex gap-0.5">
                     {p.colors.slice(0, 5).map((c, i) => (
                       <span key={i} className="w-3 h-3 rounded-sm" style={{ background: c }} />
@@ -211,11 +211,11 @@ export default function ChartConfigPanel({ columns, columnTypes, config, onChang
                 onClick={() => update({ [opt.key]: !config[opt.key] } as any)}
                 className={cn(
                   'flex items-center justify-between px-3 py-1.5 rounded-md text-xs transition-all',
-                  config[opt.key] ? 'bg-emerald-subtle text-emerald border border-emerald/20' : 'bg-midnight-700 text-frost-dim'
+                  config[opt.key] ? 'bg-success-subtle text-success border border-success/25' : 'bg-surface-2 text-tertiary'
                 )}
               >
                 {opt.label}
-                <span className={cn('w-3.5 h-3.5 rounded-full', config[opt.key] ? 'bg-emerald' : 'bg-midnight-500')} />
+                <span className={cn('w-3.5 h-3.5 rounded-full', config[opt.key] ? 'bg-success' : 'bg-surface-3')} />
               </button>
             ))}
           </div>

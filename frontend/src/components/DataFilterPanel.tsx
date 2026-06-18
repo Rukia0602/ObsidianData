@@ -79,10 +79,10 @@ export default function DataFilterPanel({ columns, columnTypes, filterMeta, onFi
           onClick={() => setExpanded(!expanded)}
           className="flex items-center gap-2"
         >
-          <Filter className="w-3.5 h-3.5 text-nebula" />
+          <Filter className="w-3.5 h-3.5 text-accent" />
           <span className="label-section">数据筛选</span>
           {activeCount > 0 && (
-            <span className="px-1.5 py-0.5 rounded-full bg-nebula-subtle text-nebula text-xs font-body">
+            <span className="px-1.5 py-0.5 rounded-full bg-accent-subtle text-accent text-xs font-body">
               {activeCount}
             </span>
           )}
@@ -90,7 +90,7 @@ export default function DataFilterPanel({ columns, columnTypes, filterMeta, onFi
         {activeCount > 0 && (
           <button
             onClick={() => setFilters({})}
-            className="text-xs text-frost-dim hover:text-ruby transition-colors flex items-center gap-1"
+            className="text-xs text-tertiary hover:text-error transition-colors flex items-center gap-1"
           >
             <X className="w-3 h-3" /> 清除
           </button>
@@ -104,13 +104,13 @@ export default function DataFilterPanel({ columns, columnTypes, filterMeta, onFi
             const isActive = f?.enabled;
             const type = columnTypes[col] || filterMeta[col]?.type || 'text';
             return (
-              <div key={col} className={cn('rounded-lg border transition-all', isActive ? 'border-nebula/30 bg-midnight-800/50' : 'border-midnight-600/20')}>
+              <div key={col} className={cn('rounded-lg border transition-all', isActive ? 'border-accent/30 bg-surface-1/50' : 'border-subtle')}>
                 <button
                   onClick={() => toggleFilter(col)}
                   className="w-full flex items-center justify-between px-3 py-1.5"
                 >
-                  <span className="text-xs text-frost-muted font-body truncate">{col}</span>
-                  <span className={cn('text-xs font-body px-1.5 rounded', type === 'numeric' ? 'bg-amber-subtle text-amber' : type === 'category' ? 'bg-emerald-subtle text-emerald' : 'bg-midnight-700 text-frost-dim')}>
+                  <span className="text-xs text-secondary font-body truncate">{col}</span>
+                  <span className={cn('text-xs font-body px-1.5 rounded', type === 'numeric' ? 'bg-accent-subtle text-accent' : type === 'category' ? 'bg-accent-subtle text-accent' : 'bg-surface-2 text-tertiary')}>
                     {type === 'numeric' ? '数值' : type === 'category' ? '分类' : '文本'}
                   </span>
                 </button>
@@ -131,8 +131,8 @@ export default function DataFilterPanel({ columns, columnTypes, filterMeta, onFi
                             className={cn(
                               'px-1.5 py-0.5 rounded text-xs font-body transition-all',
                               (f.values || []).includes(v)
-                                ? 'bg-nebula text-white'
-                                : 'bg-midnight-700 text-frost-dim hover:text-frost'
+                                ? 'bg-accent text-canvas'
+                                : 'bg-surface-2 text-tertiary hover:text-primary'
                             )}
                           >
                             {v}
@@ -156,9 +156,9 @@ export default function DataFilterPanel({ columns, columnTypes, filterMeta, onFi
                             }
                           }}
                           placeholder={String(numRange(col)[0])}
-                          className="w-16 bg-midnight-800 border border-midnight-600/40 rounded px-1.5 py-0.5 text-xs text-frost"
+                          className="w-16 bg-surface-1 border border-line rounded px-1.5 py-0.5 text-xs text-primary"
                         />
-                        <span className="text-xs text-frost-dim">~</span>
+                        <span className="text-xs text-tertiary">~</span>
                         <input
                           type="number"
                           value={f.max ?? ''}
@@ -172,19 +172,19 @@ export default function DataFilterPanel({ columns, columnTypes, filterMeta, onFi
                             }
                           }}
                           placeholder={String(numRange(col)[1])}
-                          className="w-16 bg-midnight-800 border border-midnight-600/40 rounded px-1.5 py-0.5 text-xs text-frost"
+                          className="w-16 bg-surface-1 border border-line rounded px-1.5 py-0.5 text-xs text-primary"
                         />
                       </div>
                     )}
 
                     {f.type === 'search' && (
                       <div className="relative">
-                        <Search className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-frost-dim" />
+                        <Search className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-tertiary" />
                         <input
                           value={f.text || ''}
                           onChange={e => updateFilter(col, { text: e.target.value })}
                           placeholder="搜索…"
-                          className="w-full bg-midnight-800 border border-midnight-600/40 rounded pl-7 pr-2 py-0.5 text-xs text-frost"
+                          className="w-full bg-surface-1 border border-line rounded pl-7 pr-2 py-0.5 text-xs text-primary"
                         />
                       </div>
                     )}

@@ -10,7 +10,7 @@ import type { EChartsOption } from 'echarts';
 import type { Dataset } from '@/store/useAppStore';
 import { multiUpload } from '@/lib/api';
 
-const PALETTE = ['#6C8CFF', '#34D399', '#F59E0B', '#EF4444', '#A78BFA', '#22D3EE'];
+const PALETTE = ['#E0A84E', '#5B9BF5', '#3FB984', '#D98841', '#E55A5A', '#6B7280'];
 
 type CompareMode = 'sum' | 'mean';
 type ChartStyle = 'bar' | 'line';
@@ -111,27 +111,27 @@ export default function MultiDatasetCompare() {
       title: {
         text: `${compareCol} 对比`,
         left: 'center',
-        textStyle: { color: '#E8E8ED', fontSize: 14 },
+        textStyle: { color: '#EDEEF1', fontSize: 14 },
       },
       tooltip: {
         trigger: 'axis',
-        backgroundColor: 'rgba(21,24,33,0.95)',
-        borderColor: '#6C8CFF',
-        textStyle: { color: '#E8E8ED' },
+        backgroundColor: 'rgba(28,32,38,0.95)',
+        borderColor: 'rgba(255,255,255,0.09)',
+        textStyle: { color: '#EDEEF1' },
       },
-      legend: { bottom: 0, textStyle: { color: '#9498A5' } },
+      legend: { bottom: 0, textStyle: { color: '#A4AAB4' } },
       grid: { left: '8%', right: '5%', top: '15%', bottom: '15%' },
       xAxis: {
         type: 'category',
         data: cats,
-        axisLabel: { color: '#9498A5' },
-        axisLine: { lineStyle: { color: '#2A2E3E' } },
+        axisLabel: { color: '#A4AAB4' },
+        axisLine: { lineStyle: { color: 'rgba(255,255,255,0.06)' } },
       },
       yAxis: {
         type: 'value',
         name: yName,
-        axisLabel: { color: '#9498A5' },
-        splitLine: { lineStyle: { color: '#2A2E3E', type: 'dashed' } },
+        axisLabel: { color: '#A4AAB4' },
+        splitLine: { lineStyle: { color: 'rgba(255,255,255,0.06)', type: 'dashed' } },
       },
       series,
     };
@@ -143,7 +143,7 @@ export default function MultiDatasetCompare() {
     <div className="space-y-5">
       <div
         onClick={() => !loading && fileRef.current?.click()}
-        className={`border-2 border-dashed border-midnight-600/40 hover:border-nebula/30 rounded-xl p-8 text-center transition-all ${
+        className={`border-2 border-dashed border-subtle hover:border-accent/25 rounded-xl p-8 text-center transition-all ${
           loading ? 'opacity-60 cursor-wait' : 'cursor-pointer'
         }`}
       >
@@ -159,20 +159,20 @@ export default function MultiDatasetCompare() {
           }}
         />
         {loading ? (
-          <Loader2 className="w-10 h-10 text-nebula mx-auto mb-2 animate-spin" />
+          <Loader2 className="w-10 h-10 text-accent mx-auto mb-2 animate-spin" />
         ) : (
-          <Files className="w-10 h-10 text-frost-dim mx-auto mb-2" />
+          <Files className="w-10 h-10 text-tertiary mx-auto mb-2" />
         )}
-        <p className="text-sm text-frost">
+        <p className="text-sm text-primary">
           {loading ? '上传处理中…' : '批量上传 CSV / Excel 文件进行对比'}
         </p>
-        <p className="text-xs text-frost-dim mt-1">可选择多个文件</p>
+        <p className="text-xs text-tertiary mt-1">可选择多个文件</p>
       </div>
 
       {error && (
-        <div className="flex items-center gap-2.5 px-4 py-3 rounded-lg bg-ruby-subtle border border-ruby/20">
-          <AlertCircle className="w-4 h-4 text-ruby flex-shrink-0" />
-          <span className="font-body text-xs text-ruby-light">{error}</span>
+        <div className="flex items-center gap-2.5 px-4 py-3 rounded-lg bg-error-subtle border border-error/25">
+          <AlertCircle className="w-4 h-4 text-error flex-shrink-0" />
+          <span className="font-body text-xs text-error">{error}</span>
         </div>
       )}
 
@@ -181,13 +181,13 @@ export default function MultiDatasetCompare() {
           {datasets.map((d) => (
             <div
               key={d.file_id}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-midnight-800/60 border border-midnight-600/30"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-1/60 border border-subtle"
             >
-              <span className="text-xs text-frost font-body">{d.file_name}</span>
-              <span className="text-[10px] text-frost-dim">
+              <span className="text-xs text-primary font-body">{d.file_name}</span>
+              <span className="text-[10px] text-tertiary">
                 {d.row_count}行{d.truncated ? '（已截断至1000行）' : ''}
               </span>
-              <button onClick={() => removeDataset(d.file_id)} className="text-frost-dim hover:text-ruby">
+              <button onClick={() => removeDataset(d.file_id)} className="text-tertiary hover:text-error">
                 <X className="w-3 h-3" />
               </button>
             </div>
@@ -196,7 +196,7 @@ export default function MultiDatasetCompare() {
       )}
 
       {hasTruncated && (
-        <p className="text-xs text-amber font-body px-1">
+        <p className="text-xs text-warning font-body px-1">
           部分数据集超过 1000 行，对比仅使用前 1000 行数据。
         </p>
       )}
@@ -209,7 +209,7 @@ export default function MultiDatasetCompare() {
               <select
                 value={categoryCol}
                 onChange={(e) => setCategoryCol(e.target.value)}
-                className="w-full bg-midnight-800 border border-midnight-600/40 rounded-lg px-3 py-2 text-sm text-frost"
+                className="w-full bg-surface-1 border border-subtle rounded-lg px-3 py-2 text-sm text-primary"
               >
                 <option value="">选择列…</option>
                 {commonCols.map((c) => (
@@ -222,7 +222,7 @@ export default function MultiDatasetCompare() {
               <select
                 value={compareCol}
                 onChange={(e) => setCompareCol(e.target.value)}
-                className="w-full bg-midnight-800 border border-midnight-600/40 rounded-lg px-3 py-2 text-sm text-frost"
+                className="w-full bg-surface-1 border border-subtle rounded-lg px-3 py-2 text-sm text-primary"
               >
                 <option value="">选择列…</option>
                 {numericCols.map((c) => (
@@ -233,26 +233,26 @@ export default function MultiDatasetCompare() {
           </div>
 
           <div className="flex flex-wrap gap-2">
-            <div className="flex gap-1 p-0.5 rounded-lg bg-midnight-800/50">
+            <div className="flex gap-1 p-0.5 rounded-lg bg-surface-1/50">
               {(['sum', 'mean'] as CompareMode[]).map((m) => (
                 <button
                   key={m}
                   onClick={() => setCompareMode(m)}
                   className={`px-3 py-1 rounded-md text-xs transition-all ${
-                    compareMode === m ? 'bg-nebula-subtle text-nebula' : 'text-frost-dim'
+                    compareMode === m ? 'bg-accent-subtle text-accent' : 'text-tertiary'
                   }`}
                 >
                   {m === 'sum' ? '合计' : '均值'}
                 </button>
               ))}
             </div>
-            <div className="flex gap-1 p-0.5 rounded-lg bg-midnight-800/50">
+            <div className="flex gap-1 p-0.5 rounded-lg bg-surface-1/50">
               {(['bar', 'line'] as ChartStyle[]).map((s) => (
                 <button
                   key={s}
                   onClick={() => setChartStyle(s)}
                   className={`px-3 py-1 rounded-md text-xs transition-all ${
-                    chartStyle === s ? 'bg-nebula-subtle text-nebula' : 'text-frost-dim'
+                    chartStyle === s ? 'bg-accent-subtle text-accent' : 'text-tertiary'
                   }`}
                 >
                   {s === 'bar' ? '柱状图' : '折线图'}
@@ -270,7 +270,7 @@ export default function MultiDatasetCompare() {
       )}
 
       {datasets.length === 1 && (
-        <p className="text-center text-xs text-frost-dim">至少需要上传 2 份数据才能对比</p>
+        <p className="text-center text-xs text-tertiary">至少需要上传 2 份数据才能对比</p>
       )}
     </div>
   );

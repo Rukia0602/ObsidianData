@@ -102,32 +102,32 @@ export default function DataPreviewTable({
 
   return (
     <div className="data-card overflow-hidden">
-      <div className="px-4 py-2 border-b border-midnight-600/30 flex items-center justify-between gap-2">
+      <div className="px-4 py-2 border-b border-subtle flex items-center justify-between gap-2">
         <span className="label-section">
           数据预览（第 {page + 1}/{totalPages} 页，共 {pageRowCount || totalRows} 行）
         </span>
         <div className="flex items-center gap-1">
-          {loading && <Loader2 className="w-3.5 h-3.5 text-nebula animate-spin" />}
+          {loading && <Loader2 className="w-3.5 h-3.5 text-accent animate-spin" />}
           {sortCol && (
-            <span className="text-xs text-frost-dim font-body mr-2">
+            <span className="text-xs text-tertiary font-body mr-2">
               排序: {sortCol} {sortDir === 'asc' ? '↑' : '↓'}
             </span>
           )}
           <button
             onClick={() => goPage(page - 1)}
             disabled={page <= 0 || loading}
-            className="p-1 rounded hover:bg-midnight-700/50 text-frost-dim hover:text-frost disabled:opacity-30"
+            className="p-1 rounded hover:bg-surface-2/50 text-tertiary hover:text-primary disabled:opacity-30"
             aria-label="上一页"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
-          <span className="text-xs text-frost-dim font-mono min-w-[3rem] text-center">
+          <span className="text-xs text-tertiary font-mono min-w-[3rem] text-center">
             {page + 1}/{totalPages}
           </span>
           <button
             onClick={() => goPage(page + 1)}
             disabled={page >= totalPages - 1 || loading}
-            className="p-1 rounded hover:bg-midnight-700/50 text-frost-dim hover:text-frost disabled:opacity-30"
+            className="p-1 rounded hover:bg-surface-2/50 text-tertiary hover:text-primary disabled:opacity-30"
             aria-label="下一页"
           >
             <ChevronRight className="w-4 h-4" />
@@ -142,21 +142,21 @@ export default function DataPreviewTable({
         onScroll={e => setScrollTop(e.currentTarget.scrollTop)}
       >
         <table className="w-full text-xs" style={{ tableLayout: 'fixed' }}>
-          <thead className="sticky top-0 bg-midnight-800 z-10">
+          <thead className="sticky top-0 bg-surface-1 z-10">
             <tr>
               {columns.map(c => (
                 <th
                   key={c}
                   onClick={() => handleSort(c)}
-                  className="px-3 py-2 text-left text-frost-muted font-body font-medium border-b border-midnight-600/40 cursor-pointer hover:text-nebula hover:bg-nebula-subtle/30 transition-colors select-none whitespace-nowrap"
+                  className="px-3 py-2 text-left text-secondary font-body font-medium border-b border-line cursor-pointer hover:text-accent hover:bg-accent-subtle/30 transition-colors select-none whitespace-nowrap"
                 >
                   <span className="inline-flex items-center gap-1">
                     {c}
-                    <span className="text-[9px] text-frost-dim/40">
+                    <span className="text-[9px] text-tertiary/40">
                       {columnTypes[c] === 'numeric' ? '#' : columnTypes[c] === 'category' ? 'A' : 'T'}
                     </span>
                     {sortCol === c && (
-                      <span className="text-nebula text-[10px]">{sortDir === 'asc' ? '↑' : '↓'}</span>
+                      <span className="text-accent text-[10px]">{sortDir === 'asc' ? '↑' : '↓'}</span>
                     )}
                   </span>
                 </th>
@@ -173,8 +173,8 @@ export default function DataPreviewTable({
                 <tr
                   key={`${page}-${rowIndex}`}
                   className={cn(
-                    'hover:bg-nebula-subtle/30 transition-colors',
-                    rowIndex % 2 === 1 && 'bg-midnight-800/20',
+                    'hover:bg-accent-subtle/30 transition-colors',
+                    rowIndex % 2 === 1 && 'bg-surface-1/20',
                   )}
                   style={{ height: ROW_HEIGHT }}
                 >
@@ -182,10 +182,10 @@ export default function DataPreviewTable({
                     <td
                       key={c}
                       className={cn(
-                        'px-3 py-1.5 font-body border-b border-midnight-600/10 truncate',
+                        'px-3 py-1.5 font-body border-b border-subtle/10 truncate',
                         columnTypes[c] === 'numeric'
-                          ? 'text-right tabular-nums text-frost font-mono'
-                          : 'text-frost-muted',
+                          ? 'text-right tabular-nums text-primary font-mono'
+                          : 'text-secondary',
                       )}
                       title={row[c]?.toString() ?? ''}
                     >
@@ -200,7 +200,7 @@ export default function DataPreviewTable({
             )}
             {!loading && rows.length === 0 && (
               <tr>
-                <td colSpan={columns.length} className="px-3 py-8 text-center text-frost-dim text-xs">
+                <td colSpan={columns.length} className="px-3 py-8 text-center text-tertiary text-xs">
                   暂无数据
                 </td>
               </tr>

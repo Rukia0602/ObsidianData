@@ -31,9 +31,9 @@ function AnimatedNumber({ value, prefix = '', suffix = '' }: { value: string | n
 }
 
 const metricDefs = [
-  { keyFilter: '_sum', labelSuffix: '合计', icon: <TrendingUp className="w-3.5 h-3.5" />, color: 'text-nebula', bg: 'bg-nebula-subtle' },
-  { keyFilter: '_max', labelSuffix: '峰值', icon: <Award className="w-3.5 h-3.5" />, color: 'text-amber', bg: 'bg-amber-subtle' },
-  { keyFilter: '_mean', labelSuffix: '均值', icon: <Target className="w-3.5 h-3.5" />, color: 'text-emerald', bg: 'bg-emerald-subtle' },
+  { keyFilter: '_sum', labelSuffix: '合计', icon: <TrendingUp className="w-3.5 h-3.5" />, color: 'text-accent', bg: 'bg-accent-subtle' },
+  { keyFilter: '_max', labelSuffix: '峰值', icon: <Award className="w-3.5 h-3.5" />, color: 'text-accent', bg: 'bg-accent-subtle' },
+  { keyFilter: '_mean', labelSuffix: '均值', icon: <Target className="w-3.5 h-3.5" />, color: 'text-accent', bg: 'bg-accent-subtle' },
 ];
 
 export default function InsightPanel({ insights }: InsightPanelProps) {
@@ -64,8 +64,8 @@ export default function InsightPanel({ insights }: InsightPanelProps) {
       label: topKeys[0].replace('top_', '领先: '),
       value: insights[topKeys[0]],
       icon: <Zap className="w-3.5 h-3.5" />,
-      color: 'text-nebula',
-      bg: 'bg-nebula-subtle',
+      color: 'text-accent',
+      bg: 'bg-accent-subtle',
     });
   }
 
@@ -77,9 +77,9 @@ export default function InsightPanel({ insights }: InsightPanelProps) {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2.5">
-        <Activity className="w-4 h-4 text-nebula" />
+        <Activity className="w-4 h-4 text-accent" />
         <span className="label-section">数据洞察</span>
-        <div className="flex-1 h-px bg-gradient-to-r from-midnight-600/60 to-transparent" />
+        <div className="flex-1 h-px bg-subtle" />
       </div>
 
       {/* Metric cards */}
@@ -94,7 +94,7 @@ export default function InsightPanel({ insights }: InsightPanelProps) {
               <div className={`w-7 h-7 rounded-lg ${item.bg} flex items-center justify-center ${item.color}`}>
                 {item.icon}
               </div>
-              <span className="font-body text-xs text-frost-dim">{item.label}</span>
+              <span className="font-body text-xs text-tertiary">{item.label}</span>
             </div>
             <p className={`data-value text-lg font-semibold ${item.color}`}>
               <AnimatedNumber value={item.value} />
@@ -107,16 +107,16 @@ export default function InsightPanel({ insights }: InsightPanelProps) {
       {remainingKeys.length > 0 && (
         <div className="data-card p-4 animate-fade-in-up">
           <div className="flex items-center gap-2.5 mb-3">
-            <BarChart3 className="w-3.5 h-3.5 text-frost-dim" />
+            <BarChart3 className="w-3.5 h-3.5 text-tertiary" />
             <span className="label-section">详细统计</span>
           </div>
           <div className="space-y-1.5">
             {remainingKeys.slice(0, 10).map((key) => (
-              <div key={key} className="flex justify-between items-center py-1.5 border-b border-midnight-600/20 last:border-0">
-                <span className="font-body text-xs text-frost-muted truncate mr-2 max-w-[60%]">
+              <div key={key} className="flex justify-between items-center py-1.5 border-b border-subtle last:border-0">
+                <span className="font-body text-xs text-secondary truncate mr-2 max-w-[60%]">
                   {key.replace(/_/g, ' ')}
                 </span>
-                <span className="data-value text-xs text-frost tabular-nums whitespace-nowrap font-medium">
+                <span className="data-value text-xs text-primary tabular-nums whitespace-nowrap font-medium">
                   {typeof insights[key] === 'number'
                     ? (insights[key] as number).toLocaleString('zh-CN')
                     : String(insights[key])}

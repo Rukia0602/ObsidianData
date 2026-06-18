@@ -1,14 +1,10 @@
 import { useState } from 'react';
 import { Maximize2, Download, ImageIcon } from 'lucide-react';
 
-type Accent = 'cyan' | 'amber' | 'emerald' | 'nebula' | 'violet';
+type Accent = 'accent';
 
 const accentMap: Record<Accent, { dot: string; spinner: string; glow: string }> = {
-  cyan: { dot: 'dot-cyan', spinner: 'border-t-cyan', glow: 'shadow-cyan/10' },
-  amber: { dot: 'dot-amber', spinner: 'border-t-amber', glow: 'shadow-amber/10' },
-  emerald: { dot: 'dot-emerald', spinner: 'border-t-emerald', glow: 'shadow-emerald/10' },
-  nebula: { dot: 'dot-nebula', spinner: 'border-t-nebula', glow: 'shadow-nebula/10' },
-  violet: { dot: 'dot-violet', spinner: 'border-t-violet', glow: 'shadow-violet/10' },
+  accent: { dot: 'bg-accent', spinner: 'border-t-accent', glow: '' },
 };
 
 interface ChartCardProps {
@@ -20,7 +16,7 @@ interface ChartCardProps {
   accent?: Accent;
 }
 
-export default function ChartCard({ title, imageUrl, unavailableReason, isLoading, onFullscreen, accent = 'nebula' }: ChartCardProps) {
+export default function ChartCard({ title, imageUrl, unavailableReason, isLoading, onFullscreen, accent = 'accent' }: ChartCardProps) {
   const [imgLoaded, setImgLoaded] = useState(false);
   const [imgError, setImgError] = useState(false);
   const a = accentMap[accent];
@@ -34,9 +30,9 @@ export default function ChartCard({ title, imageUrl, unavailableReason, isLoadin
   };
 
   return (
-    <div className={`data-card group overflow-hidden flex flex-col hover:shadow-lg ${a.glow}`}>
+    <div className="data-card group overflow-hidden flex flex-col">
       {/* Card header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-midnight-600/40">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-subtle">
         <div className="flex items-center gap-2.5">
           <div className={`w-1.5 h-1.5 rounded-full ${a.dot}`} />
           <span className="label-section">{title}</span>
@@ -45,7 +41,7 @@ export default function ChartCard({ title, imageUrl, unavailableReason, isLoadin
           {imageUrl && imgLoaded && (
             <button
               onClick={handleDownload}
-              className="p-1.5 rounded-md hover:bg-midnight-600/40 text-frost-dim hover:text-frost transition-all"
+              className="p-1.5 rounded-md hover:bg-surface-3 text-tertiary hover:text-primary transition-all"
               title="下载"
             >
               <Download className="w-3.5 h-3.5" />
@@ -53,7 +49,7 @@ export default function ChartCard({ title, imageUrl, unavailableReason, isLoadin
           )}
           <button
             onClick={onFullscreen}
-            className="p-1.5 rounded-md hover:bg-midnight-600/40 text-frost-dim hover:text-frost transition-all"
+            className="p-1.5 rounded-md hover:bg-surface-3 text-tertiary hover:text-primary transition-all"
             title="全屏查看"
           >
             <Maximize2 className="w-3.5 h-3.5" />
@@ -66,8 +62,8 @@ export default function ChartCard({ title, imageUrl, unavailableReason, isLoadin
         {isLoading && (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
             <div className="shimmer w-full h-full absolute inset-0 rounded-md opacity-30" />
-            <div className={`w-9 h-9 rounded-full border-2 border-midnight-500/40 ${a.spinner} animate-spin relative z-10`} />
-            <p className="font-body text-xs text-frost-dim relative z-10">生成中…</p>
+            <div className={`w-9 h-9 rounded-full border-2 border-subtle ${a.spinner} animate-spin relative z-10`} />
+            <p className="font-body text-xs text-tertiary relative z-10">生成中…</p>
           </div>
         )}
         {imageUrl && !imgError && (
@@ -83,8 +79,8 @@ export default function ChartCard({ title, imageUrl, unavailableReason, isLoadin
         )}
         {!isLoading && (!imageUrl || imgError) && (
           <div className="flex flex-col items-center gap-2">
-            <ImageIcon className="w-8 h-8 text-midnight-500" />
-            <p className="font-body text-xs text-frost-dim text-center px-4">
+            <ImageIcon className="w-8 h-8 text-quaternary" />
+            <p className="font-body text-xs text-tertiary text-center px-4">
               {unavailableReason || '图表不可用'}
             </p>
           </div>

@@ -138,20 +138,20 @@ export default function UploadPage() {
   };
 
   return (
-    <div className="min-h-screen pt-28 pb-16 px-6">
+    <div className="min-h-[100dvh] pt-28 pb-16 px-6">
       <div className="mx-auto max-w-2xl">
         {/* Hero section */}
         <div className="text-center mb-12 animate-fade-in-up">
           <div className="flex items-center justify-center gap-2 mb-5">
-            <span className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-nebula-subtle to-violet-subtle border border-nebula/20">
-              <Sparkles className="w-3.5 h-3.5 text-violet" />
-              <span className="font-body text-xs text-nebula-light font-medium">{BRAND_NAME} · 规则引擎</span>
+            <span className="tag tag-accent">
+              <Sparkles className="w-3 h-3" />
+              {BRAND_NAME} · 规则引擎
             </span>
           </div>
-          <h1 className="font-display text-4xl md:text-5xl text-frost mb-4 leading-[1.1] tracking-tight">
-            数据<span className="text-gradient-prism">洞察</span>，即刻呈现
+          <h1 className="font-display text-4xl md:text-5xl text-primary mb-4 leading-[1.1] tracking-tight font-semibold" style={{ textWrap: 'balance' }}>
+            数据<span className="text-accent">洞察</span>，即刻呈现
           </h1>
-          <p className="font-body text-sm text-frost-muted max-w-lg mx-auto leading-relaxed">
+          <p className="font-body text-sm text-secondary max-w-lg mx-auto leading-relaxed">
             上传 CSV / Excel，{BRAND_TAGLINE}自动生成可视化图表。<br />
             规则引擎提供深度解读与可执行行动计划
           </p>
@@ -163,9 +163,9 @@ export default function UploadPage() {
         </div>
 
         {error && (
-          <div className="mt-6 flex items-center gap-2.5 px-4 py-3 rounded-lg bg-ruby-subtle border border-ruby/20 animate-fade-in">
-            <AlertCircle className="w-4 h-4 text-ruby flex-shrink-0" />
-            <span className="font-body text-xs text-ruby-light">{error}</span>
+          <div className="mt-6 flex items-center gap-2.5 px-4 py-3 rounded-lg bg-error-subtle border border-error/25 animate-fade-in">
+            <AlertCircle className="w-4 h-4 text-error flex-shrink-0" />
+            <span className="font-body text-xs text-error">{error}</span>
           </div>
         )}
 
@@ -179,7 +179,7 @@ export default function UploadPage() {
             >
               {loading ? (
                 <>
-                  <div className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+                  <div className="w-4 h-4 rounded-full border-2 border-canvas/30 border-t-canvas animate-spin" />
                   分析生成中…
                 </>
               ) : (
@@ -196,16 +196,16 @@ export default function UploadPage() {
         {/* Sample data */}
         <div className="mt-10 text-center animate-fade-in-up stagger-3">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-transparent via-nebula/40 to-transparent" />
-            <span className="font-body text-xs text-frost-dim">或者</span>
-            <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-transparent via-violet/40 to-transparent" />
+            <div className="h-px flex-1 max-w-[80px] bg-subtle" />
+            <span className="font-body text-xs text-tertiary">或者</span>
+            <div className="h-px flex-1 max-w-[80px] bg-subtle" />
           </div>
           <button
             onClick={handleSample}
             disabled={loading}
             className="btn-secondary text-sm"
           >
-            <Database className="w-4 h-4 text-cyan" />
+            <Database className="w-4 h-4 text-accent" />
             加载示例数据快速体验
           </button>
         </div>

@@ -28,12 +28,12 @@ import { cn } from '@/lib/utils';
 
 type TabKey = 'explore' | 'dashboard' | 'compare' | 'ai' | 'actions';
 
-const tabItems: { key: TabKey; icon: React.ReactNode; label: string; accent: string }[] = [
-  { key: 'explore', icon: <SlidersHorizontal className="w-4 h-4" />, label: '交互探索', accent: 'from-cyan to-nebula' },
-  { key: 'dashboard', icon: <LayoutDashboard className="w-4 h-4" />, label: '仪表盘看板', accent: 'from-nebula to-violet' },
-  { key: 'compare', icon: <GitCompare className="w-4 h-4" />, label: '多数据集对比', accent: 'from-emerald to-cyan' },
-  { key: 'ai', icon: <Brain className="w-4 h-4" />, label: '洞察分析', accent: 'from-violet to-nebula' },
-  { key: 'actions', icon: <ListChecks className="w-4 h-4" />, label: '行动计划', accent: 'from-amber to-ruby' },
+const tabItems: { key: TabKey; icon: React.ReactNode; label: string }[] = [
+  { key: 'explore', icon: <SlidersHorizontal className="w-4 h-4" />, label: '交互探索' },
+  { key: 'dashboard', icon: <LayoutDashboard className="w-4 h-4" />, label: '仪表盘看板' },
+  { key: 'compare', icon: <GitCompare className="w-4 h-4" />, label: '多数据集对比' },
+  { key: 'ai', icon: <Brain className="w-4 h-4" />, label: '洞察分析' },
+  { key: 'actions', icon: <ListChecks className="w-4 h-4" />, label: '行动计划' },
 ];
 
 export default function DashboardPage() {
@@ -205,19 +205,19 @@ export default function DashboardPage() {
   return (
     <>
       <PrintReport />
-      <div className="no-print min-h-screen pt-24 pb-16 px-6">
+      <div className="no-print min-h-[100dvh] pt-24 pb-16 px-6">
       <div className="mx-auto max-w-7xl">
         {/* Header */}
         <div className="flex items-center justify-between mb-6 animate-fade-in">
           <div className="flex items-center gap-4">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-nebula to-nebula-dark flex items-center justify-center shadow-lg shadow-nebula/20">
-              <BarChart3 className="w-5 h-5 text-white" />
+            <div className="w-10 h-10 rounded-lg bg-accent flex items-center justify-center shadow-[0_2px_12px_rgba(168,85,247,0.3)]">
+              <BarChart3 className="w-5 h-5 text-white" strokeWidth={2.2} />
             </div>
             <div>
-              <span className="font-body text-xs text-nebula font-medium block">
+              <span className="font-body text-xs text-accent font-medium block">
                 {fileInfo?.file_name || 'DASHBOARD'}
               </span>
-              <h2 className="font-display text-2xl text-frost tracking-tight mt-0.5">
+              <h2 className="font-display text-2xl text-primary tracking-tight mt-0.5 font-semibold">
                 数据探索
               </h2>
             </div>
@@ -233,26 +233,26 @@ export default function DashboardPage() {
         </div>
 
         {error && (
-          <div className="mb-4 flex items-center gap-2.5 px-4 py-3 rounded-lg bg-ruby-subtle border border-ruby/20 animate-fade-in">
-            <AlertCircle className="w-4 h-4 text-ruby flex-shrink-0" />
-            <span className="font-body text-xs text-ruby-light">{error}</span>
+          <div className="mb-4 flex items-center gap-2.5 px-4 py-3 rounded-lg bg-error-subtle border border-error/25 animate-fade-in">
+            <AlertCircle className="w-4 h-4 text-error flex-shrink-0" />
+            <span className="font-body text-xs text-error">{error}</span>
           </div>
         )}
 
         {/* Tab navigation */}
-        <div className="flex gap-1 mb-6 border-b border-midnight-600/40 animate-fade-in-down overflow-x-auto">
+        <div className="flex gap-1 mb-6 border-b border-subtle animate-fade-in-down overflow-x-auto">
           {tabItems.map(t => (
             <button
               key={t.key}
               onClick={() => setTab(t.key)}
               className={cn(
-                'flex items-center gap-2 px-4 py-3 font-body text-sm transition-all relative whitespace-nowrap',
-                tab === t.key ? 'text-frost font-medium' : 'text-frost-dim hover:text-frost-muted'
+                'flex items-center gap-2 px-4 py-3 font-body text-sm transition-colors relative whitespace-nowrap',
+                tab === t.key ? 'text-primary font-medium' : 'text-tertiary hover:text-secondary'
               )}
             >
               {t.icon}
               {t.label}
-              {tab === t.key && <div className={cn('absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r', t.accent)} />}
+              {tab === t.key && <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-accent" />}
             </button>
           ))}
         </div>
@@ -288,7 +288,7 @@ export default function DashboardPage() {
                   onClick={() => setShowTransform(!showTransform)}
                   className="flex items-center gap-2 w-full"
                 >
-                  <Grid3x3 className="w-3.5 h-3.5 text-emerald" />
+                  <Grid3x3 className="w-3.5 h-3.5 text-accent" />
                   <span className="label-section">数据透视 / 计算列</span>
                 </button>
                 {showTransform && (
@@ -300,7 +300,7 @@ export default function DashboardPage() {
 
               <button
                 onClick={() => setShowFilter(!showFilter)}
-                className="text-xs text-frost-dim hover:text-frost font-body"
+                className="btn-tertiary text-xs"
               >
                 {showFilter ? '隐藏' : '显示'}筛选面板
               </button>
@@ -310,7 +310,7 @@ export default function DashboardPage() {
             <div className="flex-1 space-y-4">
               {quickPresets.length > 0 && (
                 <div className="data-card p-3">
-                  <span className="label-section block mb-2 text-nebula">快捷分析</span>
+                  <span className="label-section block mb-2 text-accent">快捷分析</span>
                   <div className="flex flex-wrap gap-2">
                     {quickPresets.map((p) => (
                       <button
@@ -324,7 +324,7 @@ export default function DashboardPage() {
                           sort_by: 'value_desc' as const,
                           title: p.label,
                         }))}
-                        className="px-3 py-1.5 rounded-lg text-xs font-body bg-midnight-700/50 border border-midnight-600/30 text-frost-muted hover:text-nebula hover:border-nebula/40 hover:bg-nebula-subtle/20 transition-all"
+                        className="px-3 py-1.5 rounded-lg text-xs font-body bg-surface-3 border border-subtle text-secondary hover:text-accent hover:border-accent/40 hover:bg-accent-subtle transition-colors"
                       >
                         {p.label}
                       </button>
@@ -338,7 +338,7 @@ export default function DashboardPage() {
                   <span className="label-section">
                     {filteredRowCount} 行{filteredRowCount > filteredData.length ? `（预览 ${filteredData.length} 行）` : ''}
                   </span>
-                  <span className="text-xs text-frost-dim font-mono">{chartConfig.type.toUpperCase()}</span>
+                  <span className="text-xs text-tertiary font-mono">{chartConfig.type.toUpperCase()}</span>
                 </div>
                 <EChartRenderer
                   ref={exploreChartRef}
@@ -369,16 +369,16 @@ export default function DashboardPage() {
             <section>
               <div className="mb-4">
                 <span className="label-section">自动分析图表</span>
-                <p className="font-body text-xs text-frost-dim mt-1">
+                <p className="font-body text-xs text-tertiary mt-1">
                   规则引擎一次性生成，matplotlib 静态图
                 </p>
               </div>
               <StaticChartGallery />
             </section>
 
-            <section className="border-t border-midnight-600/40 pt-8">
+            <section className="border-t border-subtle pt-8">
               <Suspense fallback={
-                <div className="flex items-center justify-center py-16 text-frost-muted text-sm">交互看板加载中…</div>
+                <div className="flex items-center justify-center py-16 text-secondary text-sm">交互看板加载中…</div>
               }>
                 <DashboardMode
                   fileId={fileInfo?.file_id ?? ''}

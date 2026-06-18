@@ -24,15 +24,16 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-midnight-600/60">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-surface-1/95 backdrop-blur-sm border-b border-subtle">
       <div className="mx-auto max-w-7xl px-6 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3 group" onClick={reset}>
-          <div className="relative w-9 h-9 rounded-lg bg-gradient-to-br from-nebula via-violet to-cyan flex items-center justify-center shadow-lg shadow-nebula/20 group-hover:shadow-nebula/40 transition-shadow animate-gradient-x bg-[length:200%_auto]">
-            <BarChart3 className="w-4 h-4 text-white" />
+          {/* Electric-purple logo mark — Obsidian brand accent */}
+          <div className="w-8 h-8 rounded-lg bg-accent flex items-center justify-center transition-all group-hover:scale-105 group-hover:shadow-[0_0_12px_rgba(168,85,247,0.5)]">
+            <BarChart3 className="w-4 h-4 text-white" strokeWidth={2.2} />
           </div>
-          <div>
-            <BrandWordmark size="sm" className="block" />
-            <span className="font-body text-xs text-frost-dim block -mt-0.5">
+          <div className="flex flex-col">
+            <BrandWordmark size="sm" className="block leading-none" />
+            <span className="font-body text-[11px] text-tertiary block mt-0.5 tracking-wide">
               {BRAND_TAGLINE}
             </span>
           </div>
@@ -49,21 +50,35 @@ export default function Navbar() {
               <span className="hidden sm:inline">新分析</span>
             </Link>
           )}
-          <div className={`flex items-center gap-2 px-3.5 py-2 rounded-lg border ${
-            backendOk === false
-              ? 'bg-ruby-subtle border-ruby/20'
-              : backendOk === true
-                ? 'bg-emerald-subtle border-emerald/20'
-                : 'bg-midnight-800/50 border-midnight-600/40'
-          }`}>
-            <span className={`status-dot ${backendOk === false ? '' : 'active'}`} />
-            <span className={`font-body text-sm font-medium leading-none ${
+          {/* Status indicator — semantic, not decorative */}
+          <div
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border ${
               backendOk === false
-                ? 'text-ruby-light'
+                ? 'bg-error-subtle border-error/25'
                 : backendOk === true
-                  ? 'text-emerald'
-                  : 'text-frost-dim'
-            }`}>
+                  ? 'bg-success-subtle border-success/25'
+                  : 'bg-surface-2 border-subtle'
+            }`}
+          >
+            <span
+              className={`status-dot ${
+                backendOk === false ? 'inactive' : 'active'
+              }`}
+              style={
+                backendOk === false
+                  ? { background: 'var(--status-error)', boxShadow: '0 0 6px rgba(229,90,90,0.4)' }
+                  : undefined
+              }
+            />
+            <span
+              className={`font-body text-xs font-medium leading-none ${
+                backendOk === false
+                  ? 'text-error'
+                  : backendOk === true
+                    ? 'text-success'
+                    : 'text-tertiary'
+              }`}
+            >
               {backendOk === false ? '后端未连接' : backendOk === true ? '系统就绪' : '检测中…'}
             </span>
           </div>

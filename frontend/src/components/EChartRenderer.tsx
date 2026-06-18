@@ -12,10 +12,9 @@ import type { ChartConfig, RawDataRow } from '@/store/useAppStore';
 // ECharts 类型过于严格，用 any 简化
 type EChartsOption = any;
 
-// 默认棱镜配色
+// ObsidianData v2 配色：accent, info, success, secondary, warning, error
 const DEFAULT_PALETTE = [
-  '#6C8CFF', '#34D399', '#F59E0B', '#EF4444',
-  '#A78BFA', '#22D3EE', '#FBBF24', '#F87171',
+  '#E0A84E', '#5B9BF5', '#3FB984', '#A4AAB4', '#D98841', '#E55A5A',
 ];
 
 export interface EChartRendererHandle {
@@ -112,7 +111,7 @@ const EChartRenderer = forwardRef<EChartRendererHandle, Props>(function EChartRe
     exportImage(filename = 'chart') {
       const instance = chartRef.current?.getEchartsInstance();
       if (!instance) return false;
-      const url = instance.getDataURL({ type: 'png', pixelRatio: 2, backgroundColor: '#151821' });
+      const url = instance.getDataURL({ type: 'png', pixelRatio: 2, backgroundColor: '#0B0C0F' });
       const link = document.createElement('a');
       link.download = `${filename}.png`;
       link.href = url;
@@ -124,11 +123,11 @@ const EChartRenderer = forwardRef<EChartRendererHandle, Props>(function EChartRe
   if (serverLoading) {
     return (
       <div
-        className="flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-midnight-600/40"
+        className="flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-subtle"
         style={{ height: `${height}px` }}
       >
-        <div className="w-6 h-6 rounded-full border-2 border-nebula/30 border-t-nebula animate-spin" />
-        <p className="text-sm text-frost-muted">图表数据加载中…</p>
+        <div className="w-6 h-6 rounded-full border-2 border-subtle border-t-accent animate-spin" />
+        <p className="text-sm text-secondary">图表数据加载中…</p>
       </div>
     );
   }
@@ -136,12 +135,12 @@ const EChartRenderer = forwardRef<EChartRendererHandle, Props>(function EChartRe
   if (emptyReason) {
     return (
       <div
-        className="flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-midnight-600/40"
+        className="flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-subtle"
         style={{ height: `${height}px` }}
       >
         <span className="text-3xl">📊</span>
-        <p className="text-sm text-frost-muted">{emptyReason}</p>
-        <p className="text-xs text-frost-dim font-body">请在左侧面板选择数据列</p>
+        <p className="text-sm text-secondary">{emptyReason}</p>
+        <p className="text-xs text-tertiary font-body">请在左侧面板选择数据列</p>
       </div>
     );
   }
@@ -186,28 +185,28 @@ function buildBaseOption(config: ChartConfig, catCount: number): EChartsOption {
     title: title ? {
       text: title,
       left: 'center',
-      textStyle: { color: '#E8E8ED', fontSize: 14, fontWeight: 600 },
+      textStyle: { color: '#EDEEF1', fontSize: 14, fontWeight: 600 },
     } : undefined,
     tooltip: show_tooltip ? {
       trigger: 'axis',
-      backgroundColor: 'rgba(21,24,33,0.95)',
-      borderColor: 'rgba(108,140,255,0.4)',
+      backgroundColor: '#1C2026',
+      borderColor: 'rgba(255,255,255,0.09)',
       borderWidth: 1,
       borderRadius: 8,
       padding: [8, 12],
-      textStyle: { color: '#E8E8ED', fontSize: 12 },
-      axisPointer: { type: 'cross', lineStyle: { color: 'rgba(108,140,255,0.5)', type: 'dashed' }, label: { backgroundColor: '#6C8CFF' } },
+      textStyle: { color: '#EDEEF1', fontSize: 12 },
+      axisPointer: { type: 'cross', lineStyle: { color: 'rgba(255,255,255,0.09)', type: 'dashed' }, label: { backgroundColor: '#E0A84E' } },
     } : undefined,
     legend: show_legend ? {
       bottom: 0,
-      textStyle: { color: '#9498A5' },
+      textStyle: { color: '#A4AAB4' },
       itemWidth: 12,
       itemHeight: 12,
       itemGap: 16,
     } : undefined,
     grid: { left: 60, right: 60, top: title ? 60 : 35, bottom: gridBottom, containLabel: true },
-    xAxis: { type: 'category', axisLine: { lineStyle: { color: '#2A2E3E' } }, axisLabel: { color: '#9498A5', show: config.show_x_labels, rotate: catLabelRotation, interval: catLabelInterval }, splitLine: { show: false } },
-    yAxis: { type: 'value', axisLine: { lineStyle: { color: '#2A2E3E' } }, axisLabel: { color: '#9498A5' }, splitLine: { lineStyle: { color: '#2A2E3E', type: 'dashed' } } },
+    xAxis: { type: 'category', axisLine: { lineStyle: { color: 'rgba(255,255,255,0.09)' } }, axisLabel: { color: '#A4AAB4', show: config.show_x_labels, rotate: catLabelRotation, interval: catLabelInterval }, splitLine: { show: false } },
+    yAxis: { type: 'value', axisLine: { lineStyle: { color: 'rgba(255,255,255,0.09)' } }, axisLabel: { color: '#A4AAB4' }, splitLine: { lineStyle: { color: 'rgba(255,255,255,0.06)', type: 'dashed' } } },
   };
 }
 
@@ -225,10 +224,10 @@ function buildOptionFromServer(series: ChartSeriesPayload, config: ChartConfig):
         radius: ['38%', '65%'],
         center: ['50%', '50%'],
         data: series.pie_data,
-        label: { color: '#9498A5', formatter: '{b}\n{d}%' },
-        labelLine: { lineStyle: { color: '#3A3F50' } },
-        emphasis: { itemStyle: { shadowBlur: 20, shadowColor: 'rgba(108,140,255,0.4)' }, scaleSize: 8 },
-        itemStyle: { borderColor: '#151821', borderWidth: 2 },
+        label: { color: '#A4AAB4', formatter: '{b}\n{d}%' },
+        labelLine: { lineStyle: { color: 'rgba(255,255,255,0.09)' } },
+        emphasis: { scaleSize: 8 },
+        itemStyle: { borderColor: '#0B0C0F', borderWidth: 2 },
       }],
     } };
   }
@@ -238,14 +237,14 @@ function buildOptionFromServer(series: ChartSeriesPayload, config: ChartConfig):
     return { option: {
       ...baseOption,
       tooltip: { ...baseOption.tooltip, trigger: 'item', formatter: (p: any) => `(${p.value[0]}, ${p.value[1]})` },
-      xAxis: { ...baseOption.xAxis, type: 'value', name: series.x_name, nameTextStyle: { color: '#9498A5' } },
-      yAxis: { ...baseOption.yAxis, name: series.y_name, nameTextStyle: { color: '#9498A5' } },
+      xAxis: { ...baseOption.xAxis, type: 'value', name: series.x_name, nameTextStyle: { color: '#A4AAB4' } },
+      yAxis: { ...baseOption.yAxis, name: series.y_name, nameTextStyle: { color: '#A4AAB4' } },
       series: [{
         type: 'scatter',
         data: series.points,
         symbolSize: 10,
-        itemStyle: { color: palette[0], opacity: 0.8, shadowBlur: 8, shadowColor: 'rgba(108,140,255,0.3)' },
-        emphasis: { itemStyle: { shadowBlur: 15 } },
+        itemStyle: { color: palette[0], opacity: 0.8 },
+        emphasis: { itemStyle: { borderColor: '#EDEEF1', borderWidth: 1.5 } },
       }],
     } };
   }
@@ -270,17 +269,17 @@ function buildOptionFromServer(series: ChartSeriesPayload, config: ChartConfig):
       ...baseOption,
       tooltip: { ...baseOption.tooltip, formatter: (p: any) => `${series.labels![p.value[1]]} × ${series.labels![p.value[0]]}<br/>相关系数: <b>${p.value[2]}</b>` },
       grid: { ...baseOption.grid, bottom: '20%' },
-      xAxis: { type: 'category', data: series.labels, axisLabel: { color: '#9498A5', rotate: 45 }, splitArea: { show: true } },
-      yAxis: { type: 'category', data: series.labels, axisLabel: { color: '#9498A5' }, splitArea: { show: true } },
+      xAxis: { type: 'category', data: series.labels, axisLabel: { color: '#A4AAB4', rotate: 45 }, splitArea: { show: true } },
+      yAxis: { type: 'category', data: series.labels, axisLabel: { color: '#A4AAB4' }, splitArea: { show: true } },
       visualMap: {
         min: -1, max: 1, calculable: true, orient: 'horizontal', left: 'center', bottom: '2%',
-        textStyle: { color: '#9498A5' },
-        inRange: { color: ['#EF4444', '#2A2E3E', '#34D399'] },
+        textStyle: { color: '#A4AAB4' },
+        inRange: { color: ['#E55A5A', '#1C2026', '#3FB984'] },
       },
       series: [{
         type: 'heatmap', data: series.corr_data,
-        label: { show: true, color: '#fff', fontSize: 10 },
-        emphasis: { itemStyle: { shadowBlur: 10 } },
+        label: { show: true, color: '#EDEEF1', fontSize: 10 },
+        emphasis: { itemStyle: { borderColor: '#EDEEF1', borderWidth: 1 } },
       }],
     } };
   }
@@ -292,7 +291,7 @@ function buildOptionFromServer(series: ChartSeriesPayload, config: ChartConfig):
       xAxis: { ...baseOption.xAxis, data: series.x },
       series: [{
         name: series.y_name, type: 'boxplot', data: series.box_data,
-        itemStyle: { color: 'rgba(108,140,255,0.3)', borderColor: palette[0] },
+        itemStyle: { color: 'rgba(224,168,78,0.15)', borderColor: palette[0] },
       }],
     } };
   }
@@ -312,8 +311,8 @@ function buildOptionFromServer(series: ChartSeriesPayload, config: ChartConfig):
           type: 'funnel',
           data: funnelData,
           sort: 'descending',
-          label: { color: '#E8E8ED' },
-          itemStyle: { borderColor: '#151821', borderWidth: 2 },
+          label: { color: '#EDEEF1' },
+          itemStyle: { borderColor: '#0B0C0F', borderWidth: 2 },
           emphasis: { label: { fontSize: 14 } },
         }],
       } };
@@ -330,7 +329,7 @@ function buildOptionFromServer(series: ChartSeriesPayload, config: ChartConfig):
       }));
       return { option: {
         ...baseOption,
-        radar: { indicator: indicators, axisName: { color: '#9498A5' }, splitArea: { areaStyle: { color: ['rgba(21,24,33,0.3)', 'rgba(30,34,48,0.3)'] } } },
+        radar: { indicator: indicators, axisName: { color: '#A4AAB4' }, splitArea: { areaStyle: { color: ['rgba(17,19,23,0.3)', 'rgba(22,25,30,0.3)'] } } },
         series: [{ type: 'radar', data: radarData, areaStyle: { opacity: 0.1 } }],
       } };
     }
@@ -346,8 +345,8 @@ function buildOptionFromServer(series: ChartSeriesPayload, config: ChartConfig):
           smooth,
           symbol: 'circle',
           symbolSize: 7,
-          lineStyle: { width: 2.5, color: baseColor, shadowColor: baseColor + '60', shadowBlur: 4 },
-          itemStyle: { color: baseColor, borderColor: '#fff', borderWidth: 1.5 },
+          lineStyle: { width: 2.5, color: baseColor },
+          itemStyle: { color: baseColor, borderColor: '#EDEEF1', borderWidth: 1.5 },
           areaStyle: type === 'area' ? {
             opacity: 0.2,
             color: {
@@ -359,7 +358,7 @@ function buildOptionFromServer(series: ChartSeriesPayload, config: ChartConfig):
               ],
             },
           } : undefined,
-          emphasis: { focus: 'series', lineStyle: { width: 3.5 }, itemStyle: { shadowBlur: 12, shadowColor: baseColor } },
+          emphasis: { focus: 'series', lineStyle: { width: 3.5 }, itemStyle: { borderWidth: 2 } },
           animationDelay: (idx: number) => idx * 60,
         };
       }
@@ -379,11 +378,10 @@ function buildOptionFromServer(series: ChartSeriesPayload, config: ChartConfig):
               { offset: 1, color: lighterColor },
             ],
           },
-          shadowColor: baseColor + '40',
           shadowBlur: 0,
         },
         emphasis: {
-          itemStyle: { shadowBlur: 16, shadowColor: baseColor + '80', borderColor: baseColor, borderWidth: 1 },
+          itemStyle: { borderColor: baseColor, borderWidth: 1 },
           scale: true,
           scaleSize: 1.05,
         },
@@ -449,28 +447,28 @@ function buildOption(data: RawDataRow[], config: ChartConfig): { option: ECharts
     title: title ? {
       text: title,
       left: 'center',
-      textStyle: { color: '#E8E8ED', fontSize: 14, fontWeight: 600 },
+      textStyle: { color: '#EDEEF1', fontSize: 14, fontWeight: 600 },
     } : undefined,
     tooltip: show_tooltip ? {
       trigger: type === 'scatter' || type === 'heatmap' ? 'item' : 'axis',
-      backgroundColor: 'rgba(21,24,33,0.95)',
-      borderColor: 'rgba(108,140,255,0.4)',
+      backgroundColor: '#1C2026',
+      borderColor: 'rgba(255,255,255,0.09)',
       borderWidth: 1,
       borderRadius: 8,
       padding: [8, 12],
-      textStyle: { color: '#E8E8ED', fontSize: 12 },
-      axisPointer: { type: 'cross', lineStyle: { color: 'rgba(108,140,255,0.5)', type: 'dashed' }, label: { backgroundColor: '#6C8CFF' } },
+      textStyle: { color: '#EDEEF1', fontSize: 12 },
+      axisPointer: { type: 'cross', lineStyle: { color: 'rgba(255,255,255,0.09)', type: 'dashed' }, label: { backgroundColor: '#E0A84E' } },
     } : undefined,
     legend: show_legend ? {
       bottom: 0,
-      textStyle: { color: '#9498A5' },
+      textStyle: { color: '#A4AAB4' },
       itemWidth: 12,
       itemHeight: 12,
       itemGap: 16,
     } : undefined,
     grid: { left: 60, right: 60, top: title ? 60 : 35, bottom: gridBottom, containLabel: true },
-    xAxis: { type: 'category', axisLine: { lineStyle: { color: '#2A2E3E' } }, axisLabel: { color: '#9498A5', show: show_x_labels, rotate: catLabelRotation, interval: catLabelInterval }, splitLine: { show: false } },
-    yAxis: { type: 'value', axisLine: { lineStyle: { color: '#2A2E3E' } }, axisLabel: { color: '#9498A5' }, splitLine: { lineStyle: { color: '#2A2E3E', type: 'dashed' } } },
+    xAxis: { type: 'category', axisLine: { lineStyle: { color: 'rgba(255,255,255,0.09)' } }, axisLabel: { color: '#A4AAB4', show: show_x_labels, rotate: catLabelRotation, interval: catLabelInterval }, splitLine: { show: false } },
+    yAxis: { type: 'value', axisLine: { lineStyle: { color: 'rgba(255,255,255,0.09)' } }, axisLabel: { color: '#A4AAB4' }, splitLine: { lineStyle: { color: 'rgba(255,255,255,0.06)', type: 'dashed' } } },
   };
 
   switch (type) {
@@ -496,13 +494,10 @@ function buildOption(data: RawDataRow[], config: ChartConfig): { option: ECharts
                 { offset: 1, color: lighterColor },
               ],
             },
-            shadowColor: baseColor + '40',
             shadowBlur: 0,
           },
           emphasis: {
             itemStyle: {
-              shadowBlur: 16,
-              shadowColor: baseColor + '80',
               borderColor: baseColor,
               borderWidth: 1,
             },
@@ -531,8 +526,8 @@ function buildOption(data: RawDataRow[], config: ChartConfig): { option: ECharts
           smooth,
           symbol: 'circle',
           symbolSize: 7,
-          lineStyle: { width: 2.5, color, shadowColor: color + '60', shadowBlur: 4 },
-          itemStyle: { color, borderColor: '#fff', borderWidth: 1.5 },
+          lineStyle: { width: 2.5, color },
+          itemStyle: { color, borderColor: '#EDEEF1', borderWidth: 1.5 },
           areaStyle: type === 'area' ? {
             opacity: 0.2,
             color: {
@@ -547,7 +542,7 @@ function buildOption(data: RawDataRow[], config: ChartConfig): { option: ECharts
           emphasis: {
             focus: 'series',
             lineStyle: { width: 3.5 },
-            itemStyle: { shadowBlur: 12, shadowColor: color },
+            itemStyle: { borderWidth: 2 },
           },
           animationDelay: (idx: number) => idx * 60,
         };
@@ -576,10 +571,10 @@ function buildOption(data: RawDataRow[], config: ChartConfig): { option: ECharts
           radius: ['38%', '65%'],
           center: ['50%', '50%'],
           data: finalData,
-          label: { color: '#9498A5', formatter: '{b}\n{d}%' },
-          labelLine: { lineStyle: { color: '#3A3F50' } },
-          emphasis: { itemStyle: { shadowBlur: 20, shadowColor: 'rgba(108,140,255,0.4)' }, scaleSize: 8 },
-          itemStyle: { borderColor: '#151821', borderWidth: 2 },
+          label: { color: '#A4AAB4', formatter: '{b}\n{d}%' },
+          labelLine: { lineStyle: { color: 'rgba(255,255,255,0.09)' } },
+          emphasis: { scaleSize: 8 },
+          itemStyle: { borderColor: '#0B0C0F', borderWidth: 2 },
         }],
       } };
     }
@@ -594,14 +589,14 @@ function buildOption(data: RawDataRow[], config: ChartConfig): { option: ECharts
       return { option: {
         ...baseOption,
         tooltip: { ...baseOption.tooltip, trigger: 'item', formatter: (p: any) => `(${p.value[0]}, ${p.value[1]})` },
-        xAxis: { ...baseOption.xAxis, type: 'value', name: xcol, nameTextStyle: { color: '#9498A5' } },
-        yAxis: { ...baseOption.yAxis, name: ycol, nameTextStyle: { color: '#9498A5' } },
+        xAxis: { ...baseOption.xAxis, type: 'value', name: xcol, nameTextStyle: { color: '#A4AAB4' } },
+        yAxis: { ...baseOption.yAxis, name: ycol, nameTextStyle: { color: '#A4AAB4' } },
         series: [{
           type: 'scatter',
           data: points,
           symbolSize: 10,
-          itemStyle: { color: palette[0], opacity: 0.8, shadowBlur: 8, shadowColor: 'rgba(108,140,255,0.3)' },
-          emphasis: { itemStyle: { shadowBlur: 15 } },
+          itemStyle: { color: palette[0], opacity: 0.8 },
+          emphasis: { itemStyle: { borderColor: '#EDEEF1', borderWidth: 1.5 } },
         }],
       } };
     }
@@ -657,17 +652,17 @@ function buildOption(data: RawDataRow[], config: ChartConfig): { option: ECharts
         ...baseOption,
         tooltip: { ...baseOption.tooltip, formatter: (p: any) => `${labels[p.value[1]]} × ${labels[p.value[0]]}<br/>相关系数: <b>${p.value[2]}</b>` },
         grid: { ...baseOption.grid, bottom: '20%' },
-        xAxis: { type: 'category', data: labels, axisLabel: { color: '#9498A5', rotate: 45 }, splitArea: { show: true } },
-        yAxis: { type: 'category', data: labels, axisLabel: { color: '#9498A5' }, splitArea: { show: true } },
+        xAxis: { type: 'category', data: labels, axisLabel: { color: '#A4AAB4', rotate: 45 }, splitArea: { show: true } },
+        yAxis: { type: 'category', data: labels, axisLabel: { color: '#A4AAB4' }, splitArea: { show: true } },
         visualMap: {
           min: -1, max: 1, calculable: true, orient: 'horizontal', left: 'center', bottom: '2%',
-          textStyle: { color: '#9498A5' },
-          inRange: { color: ['#EF4444', '#2A2E3E', '#34D399'] },
+          textStyle: { color: '#A4AAB4' },
+          inRange: { color: ['#E55A5A', '#1C2026', '#3FB984'] },
         },
         series: [{
           type: 'heatmap', data: corrData,
-          label: { show: true, color: '#fff', fontSize: 10 },
-          emphasis: { itemStyle: { shadowBlur: 10 } },
+          label: { show: true, color: '#EDEEF1', fontSize: 10 },
+          emphasis: { itemStyle: { borderColor: '#EDEEF1', borderWidth: 1 } },
         }],
       } };
     }
@@ -702,7 +697,7 @@ function buildOption(data: RawDataRow[], config: ChartConfig): { option: ECharts
         xAxis: { ...baseOption.xAxis, data: xCats },
         series: [{
           name: ycol, type: 'boxplot', data: boxData,
-          itemStyle: { color: 'rgba(108,140,255,0.3)', borderColor: palette[0] },
+          itemStyle: { color: 'rgba(224,168,78,0.15)', borderColor: palette[0] },
         }],
       } };
     }
@@ -725,7 +720,7 @@ function buildOption(data: RawDataRow[], config: ChartConfig): { option: ECharts
       });
       return { option: {
         ...baseOption,
-        radar: { indicator: indicators, axisName: { color: '#9498A5' }, splitArea: { areaStyle: { color: ['rgba(21,24,33,0.3)', 'rgba(30,34,48,0.3)'] } } },
+        radar: { indicator: indicators, axisName: { color: '#A4AAB4' }, splitArea: { areaStyle: { color: ['rgba(17,19,23,0.3)', 'rgba(22,25,30,0.3)'] } } },
         series: [{ type: 'radar', data: radarData, areaStyle: { opacity: 0.1 } }],
       } };
     }
@@ -741,8 +736,8 @@ function buildOption(data: RawDataRow[], config: ChartConfig): { option: ECharts
           type: 'funnel',
           data: funnelData,
           sort: 'descending',
-          label: { color: '#E8E8ED' },
-          itemStyle: { borderColor: '#151821', borderWidth: 2 },
+          label: { color: '#EDEEF1' },
+          itemStyle: { borderColor: '#0B0C0F', borderWidth: 2 },
           emphasis: { label: { fontSize: 14 } },
         }],
       } };
