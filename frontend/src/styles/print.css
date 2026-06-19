@@ -21,8 +21,7 @@
   }
 
   .no-print,
-  nav,
-  .aurora-bg {
+  nav {
     display: none !important;
   }
 
@@ -30,7 +29,7 @@
     display: block !important;
     background: #fff;
     color: #111;
-    font-family: 'Noto Sans SC', system-ui, sans-serif;
+    font-family: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
     font-size: 11pt;
     line-height: 1.5;
   }
@@ -63,7 +62,7 @@
     font-size: 13pt;
     font-weight: 600;
     color: #222;
-    border-left: 3pt solid #4a6cf7;
+    border-left: 3pt solid #C99538;
     padding-left: 8pt;
     margin: 0 0 8pt;
   }

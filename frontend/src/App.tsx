@@ -27,7 +27,6 @@ export default function App() {
   return (
     <Router>
       {showIntro && <IntroLoader onComplete={handleIntroComplete} />}
-      <div className="aurora-bg no-print" aria-hidden="true" />
       <div className="no-print">
         <Navbar />
       </div>

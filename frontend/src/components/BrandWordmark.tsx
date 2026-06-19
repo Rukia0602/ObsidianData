@@ -7,17 +7,24 @@ interface BrandWordmarkProps {
 }
 
 const sizeClass = {
-  sm: 'text-lg',
-  md: 'text-4xl md:text-5xl',
-  lg: 'text-5xl md:text-6xl',
+  sm: 'text-base',
+  md: 'text-3xl md:text-4xl',
+  lg: 'text-4xl md:text-5xl',
 };
 
 export default function BrandWordmark({ className, size = 'md' }: BrandWordmarkProps) {
   const [prefix, suffix] = [BRAND_NAME.slice(0, 8), BRAND_NAME.slice(8)];
   return (
-    <span className={cn('font-display tracking-tight', sizeClass[size], className)}>
-      <span className="text-frost">{prefix}</span>
-      <span className="text-gradient-prism">{suffix}</span>
+    <span
+      className={cn(
+        'font-display tracking-tight font-semibold',
+        sizeClass[size],
+        className,
+      )}
+      style={{ textWrap: 'balance' }}
+    >
+      <span className="text-primary">{prefix}</span>
+      <span className="text-accent">{suffix}</span>
     </span>
   );
 }

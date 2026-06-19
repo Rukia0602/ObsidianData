@@ -190,7 +190,7 @@ export default function DashboardMode({ fileId, data, columns, columnTypes, apiF
       <div className="flex items-center justify-between mb-4">
         <div>
           <span className="label-section">交互看板</span>
-          <p className="font-body text-xs text-frost-dim mt-1">
+          <p className="font-body text-xs text-tertiary mt-1">
             基于全量数据聚合，可增删图表、调整维度
           </p>
         </div>
@@ -202,8 +202,8 @@ export default function DashboardMode({ fileId, data, columns, columnTypes, apiF
 
       {charts.length === 0 ? (
         <div className="data-card min-h-[320px] flex flex-col items-center justify-center gap-4 p-8">
-          <LayoutDashboard className="w-12 h-12 text-midnight-500" />
-          <p className="text-frost-dim text-sm text-center">
+          <LayoutDashboard className="w-12 h-12 text-quaternary" />
+          <p className="text-tertiary text-sm text-center">
             暂无图表，点击「添加图表」或等待系统根据数据自动推荐
           </p>
           <button onClick={addChart} className="btn-primary text-xs">
@@ -219,25 +219,25 @@ export default function DashboardMode({ fileId, data, columns, columnTypes, apiF
               className={cn(
                 'data-card rounded-xl overflow-hidden border transition-shadow min-h-[320px] flex flex-col',
                 editingId === chart.id
-                  ? 'border-nebula/50 shadow-lg shadow-nebula/10'
-                  : 'border-midnight-600/30',
+                  ? 'border-accent/50'
+                  : 'border-subtle',
               )}
             >
-              <div className="flex items-center justify-between px-3 py-2 border-b border-midnight-600/30 flex-shrink-0">
-                <span className="text-xs text-frost-muted font-body truncate flex-1 mr-2">
+              <div className="flex items-center justify-between px-3 py-2 border-b border-subtle flex-shrink-0">
+                <span className="text-xs text-secondary font-body truncate flex-1 mr-2">
                   {chartTitle(chart.config)}
                 </span>
                 <div className="flex items-center gap-1 flex-shrink-0">
                   <button
                     onClick={() => setEditingId(editingId === chart.id ? null : chart.id)}
-                    className="p-1 rounded hover:bg-midnight-600/40 text-frost-dim hover:text-nebula transition-colors"
+                    className="p-1 rounded hover:bg-surface-3/40 text-tertiary hover:text-accent transition-colors"
                     title="配置图表"
                   >
                     <Settings2 className="w-3.5 h-3.5" />
                   </button>
                   <button
                     onClick={() => removeChart(chart.id)}
-                    className="p-1 rounded hover:bg-ruby-subtle text-frost-dim hover:text-ruby transition-colors"
+                    className="p-1 rounded hover:bg-error-subtle text-tertiary hover:text-error transition-colors"
                     title="删除图表"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
@@ -260,21 +260,21 @@ export default function DashboardMode({ fileId, data, columns, columnTypes, apiF
       {editingId && editingChart && (
         <>
           <div
-            className="fixed inset-x-0 top-16 bottom-0 bg-black/50 z-40"
+            className="fixed inset-x-0 top-16 bottom-0 bg-canvas/80 z-40"
             onClick={() => setEditingId(null)}
             aria-hidden
           />
-          <div className="fixed right-0 top-16 bottom-0 w-full max-w-sm z-[60] data-card border-l border-midnight-600/40 shadow-2xl overflow-y-auto p-4 animate-fade-in">
-            <div className="flex items-center justify-between mb-4 sticky top-0 bg-midnight-900/95 backdrop-blur py-2 -mt-2">
+          <div className="fixed right-0 top-16 bottom-0 w-full max-w-sm z-[60] data-card border-l border-subtle shadow-2xl overflow-y-auto p-4 animate-fade-in">
+            <div className="flex items-center justify-between mb-4 sticky top-0 bg-canvas/95 py-2 -mt-2">
               <span className="label-section">图表配置</span>
               <button
                 onClick={() => setEditingId(null)}
-                className="p-1 rounded hover:bg-midnight-600/40 text-frost-dim hover:text-frost"
+                className="p-1 rounded hover:bg-surface-3/40 text-tertiary hover:text-primary"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
-            <p className="text-xs text-frost-dim font-body mb-3 truncate">
+            <p className="text-xs text-tertiary font-body mb-3 truncate">
               {chartTitle(editingChart.config)}
             </p>
             <ChartConfigPanel

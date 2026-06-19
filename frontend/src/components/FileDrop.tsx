@@ -88,10 +88,10 @@ export default function FileDrop() {
         onClick={() => fileRef.current?.click()}
         className={`relative cursor-pointer rounded-xl p-10 text-center transition-all duration-300 group ${
           uploading
-            ? 'border border-midnight-600/60 bg-midnight-800/50 pointer-events-none'
+            ? 'border border-subtle bg-surface-1/50 pointer-events-none'
             : dragging
-            ? 'border-2 border-nebula bg-nebula-subtle scale-[1.01]'
-            : 'border border-dashed border-midnight-600/60 hover:border-nebula/30 hover:bg-midnight-800/30'
+            ? 'border-2 border-accent bg-accent-subtle scale-[1.01]'
+            : 'border border-dashed border-subtle hover:border-accent/25 hover:bg-surface-1/30'
         }`}
       >
         <input
@@ -108,25 +108,25 @@ export default function FileDrop() {
 
         <div className="flex flex-col items-center gap-4">
           <div className={`w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-300 ${
-            uploading ? 'bg-midnight-700/50' : dragging ? 'bg-nebula-subtle' : 'bg-midnight-700/50'
+            uploading ? 'bg-surface-2/50' : dragging ? 'bg-accent-subtle' : 'bg-surface-2/50'
           }`}>
             {uploading ? (
-              <div className="w-7 h-7 rounded-full border-2 border-nebula/30 border-t-nebula animate-spin" />
+              <div className="w-7 h-7 rounded-full border-2 border-accent/25 border-t-accent animate-spin" />
             ) : (
               <Upload className={`w-7 h-7 transition-colors ${
-                dragging ? 'text-nebula' : 'text-frost-dim group-hover:text-frost'
+                dragging ? 'text-accent' : 'text-tertiary group-hover:text-primary'
               }`} />
             )}
           </div>
           <div>
-            <p className="font-body text-base text-frost font-medium">
+            <p className="font-body text-base text-primary font-medium">
               {uploading ? '正在解析文件…' : dragging ? '释放文件以上传' : '拖拽 CSV/XLSX 文件到此处'}
             </p>
-            <p className="text-frost-dim text-sm mt-1.5 font-body flex items-center justify-center gap-1.5">
+            <p className="text-tertiary text-sm mt-1.5 font-body flex items-center justify-center gap-1.5">
               <span>或点击选择文件</span>
-              <span className="w-1 h-1 rounded-full bg-midnight-500" />
+              <span className="w-1 h-1 rounded-full bg-quaternary" />
               <span>.csv / .xlsx</span>
-              <span className="w-1 h-1 rounded-full bg-midnight-500" />
+              <span className="w-1 h-1 rounded-full bg-quaternary" />
               <span>最大 10MB</span>
             </p>
           </div>
@@ -135,9 +135,9 @@ export default function FileDrop() {
 
       {/* Error message */}
       {error && (
-        <div className="flex items-center gap-2.5 px-4 py-3 rounded-lg bg-ruby-subtle border border-ruby/20 animate-fade-in">
-          <AlertCircle className="w-4 h-4 text-ruby flex-shrink-0" />
-          <span className="font-body text-xs text-ruby-light">{error}</span>
+        <div className="flex items-center gap-2.5 px-4 py-3 rounded-lg bg-error-subtle border border-error/25 animate-fade-in">
+          <AlertCircle className="w-4 h-4 text-error flex-shrink-0" />
+          <span className="font-body text-xs text-error">{error}</span>
         </div>
       )}
 
@@ -145,16 +145,16 @@ export default function FileDrop() {
       {file && fileInfo && (
         <div className="data-card p-5 space-y-4 animate-fade-in-up">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-nebula-subtle border border-nebula/20 flex items-center justify-center flex-shrink-0">
-              <FileText className="w-5 h-5 text-nebula" />
+            <div className="w-10 h-10 rounded-xl bg-accent-subtle border border-accent/25 flex items-center justify-center flex-shrink-0">
+              <FileText className="w-5 h-5 text-accent" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="font-body text-sm text-frost truncate font-medium">{file.name}</p>
-              <p className="text-frost-dim text-xs font-mono mt-0.5">{formatBytes(file.size)}</p>
+              <p className="font-body text-sm text-primary truncate font-medium">{file.name}</p>
+              <p className="text-tertiary text-xs font-mono mt-0.5">{formatBytes(file.size)}</p>
             </div>
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-subtle border border-emerald/20">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald" />
-              <span className="text-emerald text-xs font-body font-medium">已就绪</span>
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-success-subtle border border-success/25">
+              <CheckCircle2 className="w-3.5 h-3.5 text-success" />
+              <span className="text-success text-xs font-body font-medium">已就绪</span>
             </div>
           </div>
 
@@ -164,9 +164,9 @@ export default function FileDrop() {
               { label: '行数', value: formatNumber(fileInfo.row_count) },
               { label: '大小', value: formatBytes(fileInfo.file_size) },
             ].map((stat) => (
-              <div key={stat.label} className="bg-midnight-800/50 rounded-lg p-3 text-center border border-midnight-600/30">
-                <p className="data-value text-frost text-xl font-semibold">{stat.value}</p>
-                <p className="font-body text-xs text-frost-dim mt-1">{stat.label}</p>
+              <div key={stat.label} className="bg-surface-1/50 rounded-lg p-3 text-center border border-subtle">
+                <p className="data-value text-primary text-xl font-semibold">{stat.value}</p>
+                <p className="font-body text-xs text-tertiary mt-1">{stat.label}</p>
               </div>
             ))}
           </div>
@@ -176,12 +176,12 @@ export default function FileDrop() {
       {/* Data preview */}
       {previewData && (
         <div className="data-card overflow-hidden animate-fade-in-up">
-          <div className="flex items-center justify-between px-5 py-3 border-b border-midnight-600/40">
+          <div className="flex items-center justify-between px-5 py-3 border-b border-subtle">
             <div className="flex items-center gap-2.5">
-              <Table className="w-3.5 h-3.5 text-frost-dim" />
+              <Table className="w-3.5 h-3.5 text-tertiary" />
               <span className="label-section">数据预览</span>
             </div>
-            <span className="font-body text-xs text-frost-dim">显示前 {previewData.rows.length} 行</span>
+            <span className="font-body text-xs text-tertiary">显示前 {previewData.rows.length} 行</span>
           </div>
           <div className="overflow-auto max-h-64">
             <table className="data-table">

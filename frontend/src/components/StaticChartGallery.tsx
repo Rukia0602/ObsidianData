@@ -3,12 +3,12 @@ import { useAppStore, type ChartData } from '@/store/useAppStore';
 import ChartCard from '@/components/ChartCard';
 import ChartModal from '@/components/ChartModal';
 
-const CHART_ITEMS: { key: keyof ChartData; title: string; accent: 'cyan' | 'amber' | 'emerald' | 'nebula' | 'violet' }[] = [
-  { key: 'dashboard', title: '综合看板', accent: 'violet' },
-  { key: 'pie', title: '饼图', accent: 'cyan' },
-  { key: 'line', title: '折线图', accent: 'emerald' },
-  { key: 'bar', title: '柱状图', accent: 'amber' },
-  { key: 'scatter', title: '散点图', accent: 'nebula' },
+const CHART_ITEMS: { key: keyof ChartData; title: string; accent: 'accent' }[] = [
+  { key: 'dashboard', title: '综合看板', accent: 'accent' },
+  { key: 'pie', title: '饼图', accent: 'accent' },
+  { key: 'line', title: '折线图', accent: 'accent' },
+  { key: 'bar', title: '柱状图', accent: 'accent' },
+  { key: 'scatter', title: '散点图', accent: 'accent' },
 ];
 
 export default function StaticChartGallery() {
@@ -18,8 +18,8 @@ export default function StaticChartGallery() {
   if (!charts) {
     return (
       <div className="data-card p-8 text-center mb-6">
-        <p className="font-body text-sm text-frost-muted">暂无自动生成的静态图表</p>
-        <p className="font-body text-xs text-frost-dim mt-1">请在上传页完成洞察分析后查看</p>
+        <p className="font-body text-sm text-secondary">暂无自动生成的静态图表</p>
+        <p className="font-body text-xs text-tertiary mt-1">请在上传页完成洞察分析后查看</p>
       </div>
     );
   }
